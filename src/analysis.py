@@ -77,18 +77,15 @@ def classify_toxicity(text, classifier):
         # Classificazione con il modello
         result = classifier(text, truncation=True, max_length=512)
         toxicity_score = result[0]['score']  # Confidenza del modello
-
+ 
         # Rilevamento criteri
-        detected_criteria, count_criteria = contains_toxicity_criteria(text)
-
-        # Se il modello classifica il testo come tossico o ci sono criteri rilevati, ritorna il risultato
-        return {
-            'criteria': detected_criteria, 
-            'count_criteria': count_criteria
-        }
+        detected_criteria, _ = contains_toxicity_criteria(text)
+ 
+        # Formattare i criteri rilevati uno per riga
+        if detected_criteria:
+            return '\n'.join([f"{k}: {v}" for k, v in detected_criteria.items()])
+        else:
+            return ""
     except Exception as e:
         print(f"Errore durante la classificazione del testo: {text}\n{e}")
-        return {
-            'criteria': None,
-            'count_criteria': None
-        }
+        return ""
