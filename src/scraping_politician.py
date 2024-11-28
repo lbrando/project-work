@@ -83,7 +83,7 @@ def get_info(cognome, parametro):
                 politici[cognome]["name"] = name
                 # Restituisce il nome
                 return name
-            return None
+            return "N/A"
         
         # Cerca la data di nascita
         elif parametro == "birthday":
@@ -95,7 +95,7 @@ def get_info(cognome, parametro):
                 politici[cognome]["birthday"] = birth_date
                 # Restituisce la data di nascita
                 return birth_date
-            return None
+            return "N/A"
         
         # Cerca il luogo di nascita
         elif parametro == "birthplace":
@@ -123,7 +123,7 @@ def get_info(cognome, parametro):
                 politici[cognome]["birthplace"] = birth_place
                 # Restituisce il luogo di nascita
                 return birth_place
-            return None
+            return "N/A"
         
         # Cerca la data di morte
         elif parametro == "deathday":
@@ -190,13 +190,14 @@ def get_info(cognome, parametro):
                 politici[cognome]["party"] = party
                 # Restituisce il partito politico
                 return party
-            return None
+            return "N/A"
             
         else:
             print("Parametro selezionato non valido.")
 
 
 if __name__ == "__main__":
+    import time
 
     # Carica il percorso del dataset
     data_folder = "src/dataset/speech-a.tsv"
@@ -207,6 +208,9 @@ if __name__ == "__main__":
     # Da il nome alle colonne del dataset
     dataset.columns = ["Surname", "Code", "Speech"]
 
+    # Inizio della misurazione
+    start_time = time.time()
+
     # Trova i dati dei politici e li aggiunge al dataset
     dataset["Full name"] = dataset["Surname"].apply(lambda x: get_info(x, "name"))
     dataset["Birthday"] = dataset["Surname"].apply(lambda x: get_info(x, "birthday"))
@@ -214,6 +218,16 @@ if __name__ == "__main__":
     dataset["Death day"] = dataset["Surname"].apply(lambda x: get_info(x, "deathday"))
     dataset["Death place"] = dataset["Surname"].apply(lambda x: get_info(x, "deathplace"))
     dataset["Political party"] = dataset["Surname"].apply(lambda x: get_info(x, "party"))
+
+    # Fine della misurazione
+    end_time = time.time()
     
     # Stampa i dati senza i discorsi
     print(dataset[["Surname", "Full name", "Birthday", "Birth place", "Death day", "Death place", "Political party"]])
+
+     # Calcolo del tempo
+    total_seconds = end_time - start_time
+    hours = int(total_seconds // 3600)
+    minutes = int((total_seconds % 3600) // 60)
+    seconds = total_seconds % 60
+    print(f"Tempo di esecuzione: {hours} ore, {minutes} minuti, {seconds:.2f} secondi")

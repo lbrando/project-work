@@ -1,2 +1,6 @@
 src/.DS_Store
 .DS_Store
+src/test.py
+src/api key/
+src/dataset/speech-filtered.tsv
+src/dataset/speech-info.csv
