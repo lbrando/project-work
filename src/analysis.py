@@ -1,11 +1,31 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
+
 # Funzione per caricare un modello di classificazione
 def load_model_and_tokenizer(model_name):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSequenceClassification.from_pretrained(model_name)
     return tokenizer, model
+
+
+# Modello per il sentiment analysis
+sentiment_model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
+sentiment_tokenizer, sentiment_model = load_model_and_tokenizer(sentiment_model_name)
+sentiment_labels = ["very negative", "negative", "neutral", "positive", "very positive"]
+
+# Modello per l'emotion analysis
+emotion_model_name = "bhadresh-savani/distilbert-base-uncased-emotion"
+emotion_tokenizer, emotion_model = load_model_and_tokenizer(emotion_model_name)
+emotion_labels = ["sadness", "joy", "love", "anger", "fear", "surprise"]
+
+# Modello per la propaganda - determinare tipo di propaganda
+propaganda_model_name = "IDA-SERICS/PropagandaDetection"
+propaganda_classifier = pipeline("text-classification", model=propaganda_model_name)
+
+# Modello per la toxicity
+toxicity_model_name = "citizenlab/distilbert-base-multilingual-cased-toxicity"
+toxicity_classifier = pipeline("text-classification", model=toxicity_model_name)
 
 # Funzione unificata per classificare il testo
 def classify_text(text, model, tokenizer, labels):
@@ -26,8 +46,11 @@ def contains_propaganda_criteria(text):
         "black_white_fallacy": ["either with us or against us", "only choice"],
         "clichés": ["golden times", "like once upon a time", "old times"]
     }
+    # Conta quante frasi/parole chiave sono presenti per ciascun criterio
     type_counts = {key: sum(phrase in text.lower() for phrase in phrases) for key, phrases in criteria.items()}
+    # Filtra i criteri che hanno almeno una corrispondenza
     detected_types = {key: count for key, count in type_counts.items() if count > 0}
+    # Se non ci sono criteri rilevati, ritorna None
     if not detected_types:
         return None, None
     predominant_type = max(detected_types, key=detected_types.get)
@@ -36,7 +59,9 @@ def contains_propaganda_criteria(text):
 # Funzione per rilevare il tipo di propaganda
 def detect_propaganda_type(text, classifier):
     is_propaganda_by_model = classifier(text, truncation=True, max_length=512)[0]['label'] == "propaganda"
+    # Rileva i criteri di propaganda
     criteria_counts, predominant_type = contains_propaganda_criteria(text)
+    # Se il modello classifica il testo come propaganda o ci sono criteri rilevati, ritorna il tipo
     if is_propaganda_by_model or criteria_counts:
         return predominant_type
     return None
@@ -64,10 +89,14 @@ def contains_toxicity_criteria(text):
         "fear_appeals": ["danger", "threat", "crisis", "chaos", "they're coming for you", "crime wave"],
         "flagwaving": ["our nation", "homeland", "defend values", "Make America Great Again", "Fatherland", "motherland"]
     }
+    # Conta quante frasi/parole chiave sono presenti per ciascun criterio
     type_counts = {key: sum(phrase in text.lower() for phrase in phrases) for key, phrases in criteria.items()}
+    # Filtra i criteri che hanno almeno una corrispondenza
     detected_types = {key: count for key, count in type_counts.items() if count > 0}
+    # Se non ci sono criteri rilevati, ritorna None
     if not detected_types:
         return None, None
+    # Identifica il tipo di tossicità
     predominant_type = max(detected_types, key=detected_types.get)
     return detected_types, predominant_type
 
@@ -76,7 +105,6 @@ def classify_toxicity(text, classifier):
     try:
         # Classificazione con il modello
         result = classifier(text, truncation=True, max_length=512)
-        toxicity_score = result[0]['score']  # Confidenza del modello
  
         # Rilevamento criteri
         detected_criteria, _ = contains_toxicity_criteria(text)
