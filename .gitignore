@@ -4,3 +4,4 @@ src/test.py
 src/api key/
 src/dataset/speech-filtered.tsv
 src/dataset/speech-info.csv
+src/__pycache__

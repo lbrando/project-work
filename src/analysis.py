@@ -1,6 +1,13 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
+# Determina il dispositivo appropriato per il backend
+if torch.backends.mps.is_available():  # Per macOS con Apple Silicon (MPS)
+    device = "mps"
+elif torch.cuda.is_available():  # Per GPU Nvidia (CUDA)
+    device = "cuda"
+else:  # CPU come fallback
+    device = "cpu"
 
 # Funzione per caricare un modello di classificazione
 def load_model_and_tokenizer(model_name):
@@ -8,24 +15,19 @@ def load_model_and_tokenizer(model_name):
     model = AutoModelForSequenceClassification.from_pretrained(model_name)
     return tokenizer, model
 
-
 # Modello per il sentiment analysis
-sentiment_model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
-sentiment_tokenizer, sentiment_model = load_model_and_tokenizer(sentiment_model_name)
+sentiment_tokenizer, sentiment_model = load_model_and_tokenizer("nlptown/bert-base-multilingual-uncased-sentiment")
 sentiment_labels = ["very negative", "negative", "neutral", "positive", "very positive"]
 
 # Modello per l'emotion analysis
-emotion_model_name = "bhadresh-savani/distilbert-base-uncased-emotion"
-emotion_tokenizer, emotion_model = load_model_and_tokenizer(emotion_model_name)
+emotion_tokenizer, emotion_model = load_model_and_tokenizer("bhadresh-savani/distilbert-base-uncased-emotion")
 emotion_labels = ["sadness", "joy", "love", "anger", "fear", "surprise"]
 
 # Modello per la propaganda - determinare tipo di propaganda
-propaganda_model_name = "IDA-SERICS/PropagandaDetection"
-propaganda_classifier = pipeline("text-classification", model=propaganda_model_name)
+propaganda_classifier = pipeline("text-classification", model="IDA-SERICS/PropagandaDetection", device=0 if device != "cpu" else -1)
 
 # Modello per la toxicity
-toxicity_model_name = "citizenlab/distilbert-base-multilingual-cased-toxicity"
-toxicity_classifier = pipeline("text-classification", model=toxicity_model_name)
+toxicity_classifier = pipeline("text-classification", model="citizenlab/distilbert-base-multilingual-cased-toxicity", device=0 if device != "cpu" else -1)
 
 # Funzione unificata per classificare il testo
 def classify_text(text, model, tokenizer, labels):
@@ -57,7 +59,7 @@ def contains_propaganda_criteria(text):
     return detected_types, predominant_type
 
 # Funzione per rilevare il tipo di propaganda
-def detect_propaganda_type(text, classifier):
+def detect_propaganda_type(text, classifier = propaganda_classifier):
     is_propaganda_by_model = classifier(text, truncation=True, max_length=512)[0]['label'] == "propaganda"
     # Rileva i criteri di propaganda
     criteria_counts, predominant_type = contains_propaganda_criteria(text)
@@ -65,6 +67,7 @@ def detect_propaganda_type(text, classifier):
     if is_propaganda_by_model or criteria_counts:
         return predominant_type
     return None
+
 '''
 # Funzione per classificare se è propaganda
 def classify_is_propaganda(row):
@@ -75,7 +78,6 @@ def classify_is_propaganda(row):
     else:
         return "not defined"
 '''
-
 
 # Funzione per rilevare i criteri di tossicità
 def contains_toxicity_criteria(text):
@@ -101,11 +103,8 @@ def contains_toxicity_criteria(text):
     return detected_types, predominant_type
 
 # Funzione per classificare la tossicità
-def classify_toxicity(text, classifier):
+def classify_toxicity(text):
     try:
-        # Classificazione con il modello
-        result = classifier(text, truncation=True, max_length=512)
- 
         # Rilevamento criteri
         detected_criteria, _ = contains_toxicity_criteria(text)
  

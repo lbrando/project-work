@@ -1,12 +1,11 @@
-import concurrent.futures
 import os
 import openai
 import pandas as pd
 
 # Legge la API key
-os.environ["OPENAI_API_KEY"] = open("src/api key/API Key GLHF.txt", "r").read()
+os.environ["OPENAI_API_KEY"] = open("src/api key/API-GLHF-4.txt", "r").read()
 
-def speech_info(speech):
+def speech_info(politician, speech):
     try:
         client = openai.OpenAI(
             # Utilizza le API di GLHF per l'utilizzo del modello llama
@@ -19,20 +18,21 @@ def speech_info(speech):
             messages=[
                 {"role": "system", "content": "Provide only the answer, do not add any element. If you cannot provide a specific information provide instead the value 'N/A'."},
                 {"role": "user", "content": """
-                Extract the following information from the provided speech or text, formatted as yyyy-mm-dd$location, state$occasion:
+                Extract the following information from the provided speech or text, formatted as 'yyyy-mm-dd$location, state$occasion':
 
-                Date: The exact date the speech was delivered, formatted as yyyy-mm-dd.
-                Location: The city or venue where the speech was delivered, followed by the state, separated by a comma (,). If the state is unavailable, provide only the city or venue, do not provide N/A.
+                Date: The exact date the speech was delivered, formatted as 'yyyy-mm-dd'.
+                Location: The city or venue where the speech was delivered, followed by the state, separated by a comma (,). If the state is unavailable, provide only the city or venue, do not provide N/A if you do not find the state.
                 Occasion: The specific event, purpose, or context for which the speech was delivered.
                 
                 Output Format:
-                Always provide the information in the exact order: date$location, state$occasion.
+                Always provide the information in the exact order: 'date$location, state$occasion'.
                 Separate each piece of information strictly with the $ character, without spaces before or after it.
                 If a specific piece of information cannot be determined, use N/A for that field.
                 
                 Rules for Extraction:
                 Extract as much information as possible from the text. If one or two fields can be determined but others cannot, provide the known fields and use N/A only for those that are truly unavailable.
                 Use logical inference when explicit information is missing. For example, infer the state if the city is well-known, or infer the occasion based on context (e.g., "July 4th" implies Independence Day). Ensure the inference is reasonable and based only on the provided text.
+                Try to give an answer as much as you can.
                 Avoid using N/A unless absolutely necessary, and only if no reasonable inference or information can be drawn.
                 
                 Prohibited Responses:
@@ -49,9 +49,11 @@ def speech_info(speech):
                 Key Notes:
                 Provide information plainly and in strict adherence to the required format.
                 Strive to extract or infer as much detail as possible based on the provided context.
+                 
+                The person speaking is %s
 
                 Speech: %s
-                """ % speech},
+                """ % (politician, speech)},
             ],
             # Impostazione della temperature per una risposta più precisa e veloce dal modello
             temperature=0,
@@ -60,11 +62,11 @@ def speech_info(speech):
         # Restituisce il contenuto della risposta nel formato yyyy-mm-dd$location, state$occasion
         return speech, completion.choices[0].message.content
     
-    except openai.RateLimitError:
-        print("Rate limit exceeded.")
+    except openai.RateLimitError as e:
+        raise
 
 # Funzione per ottenere i dati per ogni speech con gestione degli errori
-def get_speech_data(speech):
+def get_speech_data(speech, results_dict):
     try:
         # Divide il risultato e assicura 3 valori
         parts = results_dict[speech].split('$')
@@ -77,6 +79,7 @@ def get_speech_data(speech):
 
 if __name__ == "__main__":
     import time
+    import concurrent.futures
     
     # Carica il dataset
     data_folder = "src/dataset/speech-filtered.tsv"
@@ -91,13 +94,13 @@ if __name__ == "__main__":
     # Usa ThreadPoolExecutor per l'elaborazione parallela
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         # Mappa le chiamate API in parallelo
-        results = list(executor.map(speech_info, dataset["Speech"]))
+        results = list(executor.map(speech_info, dataset["Surname"], dataset["Speech"]))
     
     # Crea un dizionario per mappare i risultati
     results_dict = dict(results)
     
     # Crea le nuove colonne in modo sicuro
-    speech_data = dataset["Speech"].apply(get_speech_data).tolist()
+    speech_data = dataset["Speech"].apply(lambda x: get_speech_data(x, results_dict)).tolist()
     
     # Separa le colonne
     dataset["Speech Date"] = [row[0] for row in speech_data]
