@@ -3,6 +3,7 @@ import pandas as pd
 import itertools
 import threading
 import concurrent.futures
+import os
 
 # Importa i file come moduli
 import analysis as an
@@ -88,7 +89,7 @@ loading_thread.start()
 # Trova i dati dei politici e li aggiunge al dataset
 try:
     # Usa ThreadPoolExecutor per l'elaborazione parallela
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=os.cpu_count()-1) as executor:
         # Mappa le chiamate API in parallelo
         results = list(executor.map(ss.speech_info, dataset["Full name"], dataset["Speech"]))
     
@@ -102,6 +103,12 @@ try:
     dataset["Speech Date"] = [row[0] for row in speech_data]
     dataset["Speech location"] = [row[1] for row in speech_data]
     dataset["Speech occasion"] = [row[2] for row in speech_data]
+    dataset["Topic"] = [row[3] for row in speech_data]
+    dataset["Cognitive Bias"] = [row[4] for row in speech_data]
+    dataset["Summary"] = [row[5] for row in speech_data]
+
+    # Aggiunge le keywords
+    dataset["Keywords"] = dataset["Speech"].apply(ss.keywords)
 
 except Exception as e:
     print("\r❌ Errore nell'ottenimento delle informazioni: %s" % e)
@@ -140,9 +147,9 @@ loading_thread.start()
 # Applica le funzioni di analisi
 try:
     dataset["Toxicity text count"] = dataset["Speech"].apply(an.classify_toxicity)
-    dataset["Type of propaganda"] = dataset.apply(
-        lambda row: an.detect_propaganda_type(row["Speech"]) if row["Code"] == 1 else "Not propaganda", axis=1
-    )
+    dataset["Type of propaganda"], dataset["Offsets"] = zip(*dataset.apply(
+        lambda row: an.offsets(row["Speech"], an.detect_propaganda_type(row["Speech"])) if row["Code"] == 1 else ("Not propaganda", None), axis=1
+    ))
     dataset["Sentiment"] = dataset["Speech"].apply(
         lambda x: an.classify_text(x, an.sentiment_model, an.sentiment_tokenizer, an.sentiment_labels)
     )
@@ -168,6 +175,50 @@ hours = int(total_seconds // 3600)
 minutes = int((total_seconds % 3600) // 60)
 seconds = total_seconds % 60
 print("⏳ Tempo di esecuzione dell'analisi: %d ore, %d minuti, %.2f secondi\n" % (hours, minutes, seconds))
+
+'''
+# Avvia la misurazione
+start_time = time.time()
+
+success = True
+
+# Fase 4: Riassunti
+print("📝 Scrivo i riassunti dei discorsi")
+# Avvia l'animazione di caricamento
+stop_event = threading.Event()
+loading_thread = threading.Thread(
+    target=loading_animation,
+    args=("Scrittura riassunti", stop_event, "✅ Riassunti scritti")
+)
+loading_thread.start()
+
+# Scrive i riassunti e li aggiunge al dataset
+try:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=os.cpu_count()-1) as executor:
+        # Applica direttamente la logica di riepilogo nel map
+        results = list(executor.map(lambda x: ts.summarize_speech(x) if len(x) > 150 else x, dataset["Speech"]))
+
+    # Aggiunge il risultato alla colonna "Summary"
+    dataset["Summary"] = results
+
+except Exception as e:
+    print("\r❌ Errore durante la scrittura dei riassunti: %s" % e)
+    success = False
+
+finally:
+    # Ferma l'animazione di caricamento
+    stop_event.set()
+    loading_thread.join()
+
+# Fine della misurazione
+end_time = time.time()
+
+# Calcola il tempo di elaborazione
+total_seconds = end_time - start_time
+hours = int(total_seconds // 3600)
+minutes = int((total_seconds % 3600) // 60)
+seconds = total_seconds % 60
+print("⏳ Tempo di esecuzione per la scrittura dei riassunti: %d ore, %d minuti, %.2f secondi\n" % (hours, minutes, seconds))'''
 
 # Salva il dataset risultante in un file CSV
 dataset.to_csv(data_output, index=False)

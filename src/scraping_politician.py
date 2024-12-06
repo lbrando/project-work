@@ -104,7 +104,7 @@ def get_info(cognome, parametro):
                 # Estrae il luogo di nascita
                 birth_place = next(
                     # Prende il link del luogo di nascita e lo unisce allo Stato di nascita
-                    (f"{row.find("a").text}{row.find("a").find_next_sibling(string=True).text}"
+                    ("%s%s" % (row.find("a").text, row.find("a").find_next_sibling(string=True).text)
                     for row in infobox if "Born" in row.get_text()), 
                     None
                 )
@@ -113,7 +113,7 @@ def get_info(cognome, parametro):
                 # Estrae il luogo di nascita
                 birth_place = next(
                     # Prende la stringa del luogo di nascita
-                    (f"{row.find("br").find_next_sibling(string=True).text}"
+                    ("%s" % row.find("br").find_next_sibling(string=True).text
                     for row in infobox if "Born" in row.get_text()), 
                     None
                 )
@@ -153,7 +153,7 @@ def get_info(cognome, parametro):
                 # Estrae il luogo di morte
                 death_place = next(
                     # Prende il link del luogo di morte e lo unisce allo Stato di morte
-                    (f"{row.find("a").text}{row.find("a").find_next_sibling(string=True).text}"
+                    ("%s%s" % (row.find("a").text, row.find("a").find_next_sibling(string=True).text)
                     for row in infobox if "Died" in row.get_text()), 
                     None
                 )
@@ -161,7 +161,7 @@ def get_info(cognome, parametro):
             except AttributeError:
                 death_place = next(
                     # Prende la stringa del luogo di morte
-                    (f"{row.find("br").find_next_sibling(string=True).text}"
+                    ("%s" % row.find("br").find_next_sibling(string=True).text
                     for row in infobox if "Died" in row.get_text()), 
                     None
                 )
@@ -180,7 +180,7 @@ def get_info(cognome, parametro):
             # Estrae il partito politico
             party = next(
             # Prende il link del partito politico
-                (f"{row.find("a").text}"
+                ("%s" % row.find("a").text
                 for row in infobox if "Political party" in row.get_text()), 
                 None
             )
@@ -230,4 +230,4 @@ if __name__ == "__main__":
     hours = int(total_seconds // 3600)
     minutes = int((total_seconds % 3600) // 60)
     seconds = total_seconds % 60
-    print(f"Tempo di esecuzione: {hours} ore, {minutes} minuti, {seconds:.2f} secondi")
+    print("Tempo di esecuzione: %d ore, %d minuti, %.2f secondi" % (hours, minutes, seconds))

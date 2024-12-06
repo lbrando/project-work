@@ -35,7 +35,7 @@ def classify_text(text, model, tokenizer, labels):
     outputs = model(**inputs)
     probabilities = torch.nn.functional.softmax(outputs.logits, dim=1)
     prediction = torch.argmax(probabilities, dim=1).item()
-    return labels[prediction]
+    return labels[prediction].capitalize()
 
 # Funzione per rilevare i criteri di propaganda
 def contains_propaganda_criteria(text):
@@ -59,14 +59,77 @@ def contains_propaganda_criteria(text):
     return detected_types, predominant_type
 
 # Funzione per rilevare il tipo di propaganda
-def detect_propaganda_type(text, classifier = propaganda_classifier):
-    is_propaganda_by_model = classifier(text, truncation=True, max_length=512)[0]['label'] == "propaganda"
-    # Rileva i criteri di propaganda
-    criteria_counts, predominant_type = contains_propaganda_criteria(text)
-    # Se il modello classifica il testo come propaganda o ci sono criteri rilevati, ritorna il tipo
-    if is_propaganda_by_model or criteria_counts:
-        return predominant_type
-    return None
+def detect_propaganda_type(text, classifier=propaganda_classifier, chunk_size=512, overlap=128):
+    import re
+    from collections import Counter
+ 
+    # Funzione per creare chunk con finestra scorrevole
+    def split_text_sliding_window(text, chunk_size=512, overlap=128):
+        words = text.split()
+        chunks = []
+        start = 0
+ 
+        while start < len(words):
+            end = start + chunk_size
+            chunk = ' '.join(words[start:end])
+            chunks.append((chunk, start, end))  # Include gli indici di partenza e fine
+            start = end - overlap  # Sposta la finestra avanti
+ 
+        return chunks
+ 
+    # Dividi il testo in frasi usando una semplice regex
+    def split_into_sentences(text):
+        sentence_endings = re.compile(r'(?<=[.!?])\s+')
+        return sentence_endings.split(text)
+ 
+    # Divide il testo in chunk
+    text_chunks = split_text_sliding_window(text, chunk_size, overlap)
+    propaganda_results = []
+ 
+    for chunk, start_idx, end_idx in text_chunks:
+        # Classifica il chunk
+        is_propaganda_by_model = classifier(chunk, truncation=True, max_length=chunk_size)[0]['label'] == "propaganda"
+        criteria_counts, predominant_type = contains_propaganda_criteria(chunk)
+ 
+        # Analizza le frasi del chunk
+        if is_propaganda_by_model or criteria_counts:
+            sentences = split_into_sentences(chunk)  # Dividi il chunk in frasi
+            for sentence in sentences:
+                # Classifica la singola frase
+                sentence_is_propaganda = classifier(sentence, truncation=True)[0]['label'] == "propaganda"
+                sentence_criteria, sentence_type = contains_propaganda_criteria(sentence)
+ 
+                if sentence_is_propaganda or sentence_criteria:
+
+                    propaganda_results.append({
+                        "type": sentence_type,
+                        "sentence": sentence
+                    })
+ 
+    # Se esistono risultati di propaganda
+    if propaganda_results:
+        # Conta la frequenza di ogni tipo di propaganda
+        types = [result["type"] for result in propaganda_results]
+        type_counts = Counter(types)
+ 
+        # Prendi le 5 tipologie più comuni
+        top_5_types = type_counts.most_common(5)
+ 
+        # Estrai i risultati per le 5 tipologie più comuni
+        results = []
+        for propaganda_type, _ in top_5_types:
+            sentences_of_type = [
+                {"sentence": result["sentence"]}
+                for result in propaganda_results if result["type"] == propaganda_type
+            ]
+            results.append({
+                "type": propaganda_type,
+                "sentences": sentences_of_type
+            })
+ 
+        return results
+ 
+    return "Not identified"
 
 '''
 # Funzione per classificare se è propaganda
@@ -110,9 +173,31 @@ def classify_toxicity(text):
  
         # Formattare i criteri rilevati uno per riga
         if detected_criteria:
-            return '\n'.join([f"{k}: {v}" for k, v in detected_criteria.items()])
+            return '\n'.join(["%s: %s" % (k, v) for k, v in detected_criteria.items()]).replace("_", " ").title()
         else:
             return ""
-    except Exception as e:
-        print(f"Errore durante la classificazione del testo: {text}\n{e}")
+    except Exception:
+        raise
         return ""
+    
+def offsets(speech, data):
+
+    # Verifica che la propaganda sia stata correttamente identificata
+    if data == "Not identified":
+        return "Not identified", None
+
+    # Crea un dizionario per definire gli offset
+    offsets = {
+        # Crea una chiave per tipo e la formatta correttamente 
+        entry["type"].replace("_", " ").capitalize(): [
+            # Crea un offset per ogni frase
+            "[%s:%s]" % (start, start + len(sentence["sentence"]))
+            for sentence in entry["sentences"]
+            # Trova le frasi e le misura
+            if (start := speech.find(sentence["sentence"])) != -1
+        ]
+        for entry in data
+    }
+
+    # Restituice il tipo di propaganda e gli offset per ogni tipo di propaganda
+    return "\n".join(offsets.keys()), "\n".join("%s: %s" % (key, ", ".join(element)) for key, element in offsets.items())
