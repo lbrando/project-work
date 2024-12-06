@@ -9,6 +9,7 @@ import os
 import analysis as an
 import scraping_politician as sp
 import scraping_speech as ss
+import text_based as tb
 
 ### DEFINIZIONE DEI PARAMETRI ###
 # Carica il percorso del dataset
@@ -106,9 +107,8 @@ try:
     dataset["Topic"] = [row[3] for row in speech_data]
     dataset["Cognitive Bias"] = [row[4] for row in speech_data]
     dataset["Summary"] = [row[5] for row in speech_data]
-
-    # Aggiunge le keywords
-    dataset["Keywords"] = dataset["Speech"].apply(ss.keywords)
+    dataset["Keywords"] = [row[6] for row in speech_data]
+    dataset["Underlying narrative"] = [row[7].replace(";", "\n\n") for row in speech_data]
 
 except Exception as e:
     print("\r❌ Errore nell'ottenimento delle informazioni: %s" % e)
@@ -176,33 +176,42 @@ minutes = int((total_seconds % 3600) // 60)
 seconds = total_seconds % 60
 print("⏳ Tempo di esecuzione dell'analisi: %d ore, %d minuti, %.2f secondi\n" % (hours, minutes, seconds))
 
-'''
 # Avvia la misurazione
 start_time = time.time()
 
 success = True
 
-# Fase 4: Riassunti
-print("📝 Scrivo i riassunti dei discorsi")
+# Fase 4: Feature text-based
+print("📝 Aggiungo feature text-based")
 # Avvia l'animazione di caricamento
 stop_event = threading.Event()
 loading_thread = threading.Thread(
     target=loading_animation,
-    args=("Scrittura riassunti", stop_event, "✅ Riassunti scritti")
+    args=("Aggiunta in corso", stop_event, "✅ Aggiunta completata")
 )
 loading_thread.start()
 
-# Scrive i riassunti e li aggiunge al dataset
+# Applica le funzioni di analisi
 try:
-    with concurrent.futures.ThreadPoolExecutor(max_workers=os.cpu_count()-1) as executor:
-        # Applica direttamente la logica di riepilogo nel map
-        results = list(executor.map(lambda x: ts.summarize_speech(x) if len(x) > 150 else x, dataset["Speech"]))
+    # Aggiunge le parole con score TF-IDF più alto
+    dataset["TF-IDF"] = dataset["Speech"].apply(tb.tfidf)
 
-    # Aggiunge il risultato alla colonna "Summary"
-    dataset["Summary"] = results
+    # Aggiunge la struttura narrativa
+    dataset["Narrative structure"] = dataset["Speech"].apply(tb.analyze_narrative_structure)
+
+    # Verifica il tono del discorso
+    dataset["Tone"] = dataset["Speech"].apply(tb.is_formal)
+
+    # Calcola metriche di leggibilità
+    readability_metrics = dataset["Speech"].apply(tb.calcola_legibilita)
+    dataset["Flesch Reading Ease"] = readability_metrics.apply(lambda x: x["flesch_reading_ease"])
+    dataset["Flesch Kincaid Grade"] = readability_metrics.apply(lambda x: x["flesch_kincaid_grade"])
+    dataset["Gunning Fog"] = readability_metrics.apply(lambda x: x["gunning_fog"])
+    dataset["Smog Index"] = readability_metrics.apply(lambda x: x["smog_index"])
+    dataset["Text Standard"] = readability_metrics.apply(lambda x: x["text_standard"])
 
 except Exception as e:
-    print("\r❌ Errore durante la scrittura dei riassunti: %s" % e)
+    print("\r❌ Errore nell'aggiunta delle feature text-based: %s" % e)
     success = False
 
 finally:
@@ -218,7 +227,7 @@ total_seconds = end_time - start_time
 hours = int(total_seconds // 3600)
 minutes = int((total_seconds % 3600) // 60)
 seconds = total_seconds % 60
-print("⏳ Tempo di esecuzione per la scrittura dei riassunti: %d ore, %d minuti, %.2f secondi\n" % (hours, minutes, seconds))'''
+print("⏳ Tempo di esecuzione dell'analisi: %d ore, %d minuti, %.2f secondi\n" % (hours, minutes, seconds))
 
 # Salva il dataset risultante in un file CSV
 dataset.to_csv(data_output, index=False)

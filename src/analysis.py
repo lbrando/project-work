@@ -1,18 +1,24 @@
 import torch
+from collections import Counter
+import re
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
 # Determina il dispositivo appropriato per il backend
-if torch.backends.mps.is_available():  # Per macOS con Apple Silicon (MPS)
-    device = "mps"
-elif torch.cuda.is_available():  # Per GPU Nvidia (CUDA)
+if torch.cuda.is_available(): # Per GPU Nvidia (CUDA)
     device = "cuda"
+elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available(): # Per macOS con Apple Silicon (MPS)
+    device = "mps"
 else:  # CPU come fallback
     device = "cpu"
 
 # Funzione per caricare un modello di classificazione
-def load_model_and_tokenizer(model_name):
+def load_model_and_tokenizer(model_name, device=None):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSequenceClassification.from_pretrained(model_name)
+    
+    if device and device != "cpu":
+        model = model.to(device)
+    
     return tokenizer, model
 
 # Modello per il sentiment analysis
@@ -37,6 +43,11 @@ def classify_text(text, model, tokenizer, labels):
     prediction = torch.argmax(probabilities, dim=1).item()
     return labels[prediction].capitalize()
 
+# Dividi il testo in frasi usando una semplice regex
+def split_into_sentences(text):
+    sentence_endings = re.compile(r'(?<=[.!?])\s+')
+    return sentence_endings.split(text)
+
 # Funzione per rilevare i criteri di propaganda
 def contains_propaganda_criteria(text):
     criteria = {
@@ -58,35 +69,27 @@ def contains_propaganda_criteria(text):
     predominant_type = max(detected_types, key=detected_types.get)
     return detected_types, predominant_type
 
+# Funzione per creare chunk con finestra scorrevole
+def split_text_sliding_window(text, chunk_size=512, overlap=128):
+    words = text.split()
+    chunks = []
+    start = 0
+
+    while start < len(words):
+        end = start + chunk_size
+        chunk = ' '.join(words[start:end])
+        chunks.append(chunk)
+        start = end - overlap
+
+    return chunks
+
 # Funzione per rilevare il tipo di propaganda
 def detect_propaganda_type(text, classifier=propaganda_classifier, chunk_size=512, overlap=128):
-    import re
-    from collections import Counter
- 
-    # Funzione per creare chunk con finestra scorrevole
-    def split_text_sliding_window(text, chunk_size=512, overlap=128):
-        words = text.split()
-        chunks = []
-        start = 0
- 
-        while start < len(words):
-            end = start + chunk_size
-            chunk = ' '.join(words[start:end])
-            chunks.append((chunk, start, end))  # Include gli indici di partenza e fine
-            start = end - overlap  # Sposta la finestra avanti
- 
-        return chunks
- 
-    # Dividi il testo in frasi usando una semplice regex
-    def split_into_sentences(text):
-        sentence_endings = re.compile(r'(?<=[.!?])\s+')
-        return sentence_endings.split(text)
- 
     # Divide il testo in chunk
     text_chunks = split_text_sliding_window(text, chunk_size, overlap)
     propaganda_results = []
  
-    for chunk, start_idx, end_idx in text_chunks:
+    for chunk in text_chunks:
         # Classifica il chunk
         is_propaganda_by_model = classifier(chunk, truncation=True, max_length=chunk_size)[0]['label'] == "propaganda"
         criteria_counts, predominant_type = contains_propaganda_criteria(chunk)
@@ -152,7 +155,7 @@ def contains_toxicity_criteria(text):
         "personal_attacks": ["you always fail", "your fault", "worthless", "incompetent", "phony", "betrayer"],
         "exaggerations": ["always lie", "never truthful", "the worst", "greatest challenge", "unprecedented threat"],
         "fear_appeals": ["danger", "threat", "crisis", "chaos", "they're coming for you", "crime wave"],
-        "flagwaving": ["our nation", "homeland", "defend values", "Make America Great Again", "Fatherland", "motherland"]
+        "flagwaving": ["our nation", "homeland", "defend values", "make america great again", "fatherland", "motherland", "maga"]
     }
     # Conta quante frasi/parole chiave sono presenti per ciascun criterio
     type_counts = {key: sum(phrase in text.lower() for phrase in phrases) for key, phrases in criteria.items()}
@@ -178,7 +181,6 @@ def classify_toxicity(text):
             return ""
     except Exception:
         raise
-        return ""
     
 def offsets(speech, data):
 

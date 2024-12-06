@@ -1,14 +1,5 @@
 import os
 import openai
-import nltk
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-# Scarica le risorse di NLTK necessarie in background
-nltk.download('punkt_tab', quiet=True)
-nltk.download('punkt', quiet=True)
-nltk.download('omw-1.4', quiet=True)
-nltk.download('stopwords', quiet=True)
-nltk.download('wordnet', quiet=True)
 
 # Legge la API key
 os.environ["OPENAI_API_KEY"] = open("src/api key/API-GLHF.txt", "r").read()
@@ -26,7 +17,7 @@ def speech_info(politician, speech):
             messages=[
                 {"role": "system", "content": "Provide only the answer, do not add any element. If you cannot provide a specific information provide instead the value 'N/A'."},
                 {"role": "user", "content": """
-                Extract the following information from the provided speech or text, formatted as 'yyyy-mm-dd$location, state$occasion$topic$cognitive bias$summary':
+                Extract the following information from the provided speech or text, formatted as 'yyyy-mm-dd$location, state$occasion$topic$cognitive bias$summary$keywords$underlying narrative':
 
                 Date: The exact date the speech was delivered, formatted as 'yyyy-mm-dd'.
                 Location: The city or venue where the speech was delivered, followed by the state, separated by a comma (,). If the state is unavailable, provide only the city or venue, do not provide N/A if you do not find the state.
@@ -34,9 +25,17 @@ def speech_info(politician, speech):
                 Topic: The specific topic of the speech, or a general theme or subject, if applicable, in one or a few words.
                 Cognitive bias: The bias of the speech, such as Illusory correlation, Causal Fallacy, Implicit association, etc. if there are any. If there is more then one bias provide all of them in a list formatted as 'bias1, bias2, bias3'. If the bias is unavailable, provide None.
                 Summary: A short summary of the speech, in less then 100 words, if available. If the speech is too short to summarize, provide the whole speech. If there is no speech provide 'No speech provided'.
-                
+                Keywords: The keywords extracted from the speech, in one or a few words (at most 5), if available. If the keywords cannot be extracted, provide 'N/A'. Provide the keywords in a list formatted as 'keyword1, keyword2, keyword3'.
+                Story telling: Analyze the political speech and provide a comprehensive breakdown of its underlying narrative. Follow these steps and provide them in a bullet list, with the following format: 'Conext: description.;Rhetorical Structure: description.;Main Themes and Values: description.;...'. Always provide ";" between each step and do not use spaces alongside it. Use a fullstop at the end of every description. Do never provide '\n'. If the speech is too short to analyze, provide 'N/A'.
+                    Context: Offer a brief analysis of the historical, cultural, and political context of the speech. Identify the target audience and the purpose of the message.
+                    Rhetorical Structure: Identify the organization of the speech, highlighting key points and the sequence of arguments.
+                    Main Themes and Values: List the central themes and implicit values. Analyze how the protagonist (positive actor), the antagonist (obstacle or problem), and the proposed solution are represented.
+                    Use of Language: Examine the tone, rhetorical devices, and symbolic imagery used. Explain how these elements contribute to delivering the message.
+                    Emotional Appeals and Persuasive Strategy: Analyze appeals to emotions such as hope, fear, or empathy, and assess any manipulative elements, including stereotypes, generalizations, or polarizations.
+                    Conclusion: Summarize the speech’s effectiveness. Is the narrative coherent and convincing? How might it influence the audience?
+                    
                 Output Format:
-                Always provide the information in the exact order: 'date$location, state$occasion$topic$cognitive bias$summary'.
+                Always provide the information in the exact order: 'date$location, state$occasion$topic$cognitive bias$summary$keywords$underlying narrative'.
                 Separate each piece of information strictly with the $ character, without spaces before or after it.
                 If a specific piece of information cannot be determined, use N/A for that field.
                 
@@ -49,13 +48,13 @@ def speech_info(politician, speech):
                 Prohibited Responses:
                 Do not include additional commentary, explanations, or any text outside the required format.
                 Do not state that you cannot provide the information—simply use N/A where applicable.
-                Always provide exactly six values, no more and no less.
+                Always provide exactly eight values, no more and no less.
                 
                 Examples of Correct Outputs:
-                Full information available: 2024-11-28$NewYork, NY$Thanksgiving Parade Speech$Thanksgiving$Implicit association, Causal Fallacy$Summary
-                Partial information: 2023-01-15$N/A$Nobel Prize Acceptance$N/A$Causal Fallacy$Summary
-                Entirely missing: N/A$N/A$N/A$N/A$None$No speech provided
-                Inferred information: 1863-11-19$Gettysburg, PA$Gettysburg Address (based on "Gettysburg" and date in the input text)$War$Illusory correlation$Summary
+                Full information available: 2024-11-28$NewYork, NY$Thanksgiving Parade Speech$Thanksgiving$Implicit association, Causal Fallacy$Summary$Cybersecurity, AI, Technology$Underlying narrative analysis
+                Partial information: 2023-01-15$N/A$Nobel Prize Acceptance$N/A$Causal Fallacy$Summary$Award, Prize, Recognition$Underlying narrative analysis
+                Entirely missing: N/A$N/A$N/A$N/A$None$No speech provided$N/A$N/A
+                Inferred information: 1863-11-19$Gettysburg, PA$Gettysburg Address (based on "Gettysburg" and date in the input text)$War$Illusory correlation$Summary$Gettysburg, Pennsylvania, Union, War$Underlying narrative analysis
                 
                 Key Notes:
                 Provide information plainly and in strict adherence to the required format.
@@ -82,41 +81,10 @@ def get_speech_data(speech, results_dict):
         # Divide il risultato e assicura 5 valori
         parts = results_dict[speech].split('$')
         # Riempie con "N/A" se mancano valori
-        parts += ["N/A"] * (6 - len(parts))
-        return parts[:6]
+        parts += ["N/A"] * (8 - len(parts))
+        return parts[:8]
     except (KeyError, Exception):
-        return ["N/A", "N/A", "N/A", "N/A", "N/A", "N/A"]
-
-def keywords(text):
-    # Definisce il numero di parole massimo per le keywords
-    max_ngram_length = 1
-    # Definisce quante keywords dobbiamo trovare
-    top_n = 5
-
-    # Inserisce i parametri di ricerca e il dizionario delle stop words
-    vectorizer = TfidfVectorizer(
-        ngram_range=(1, max_ngram_length),
-        stop_words='english'
-    )
-    
-    # Prende la matrice TF-IDF (term frequency–inverse document frequency)
-    tfidf_matrix = vectorizer.fit_transform([text])
-    
-    # Prende i nomi delle parole
-    feature_names = vectorizer.get_feature_names_out()
-    
-    # Prende gli score TF-IDF
-    tfidf_scores = tfidf_matrix.toarray()[0]
-    
-    # Crea la lista di keywords con gli score
-    keywords = [
-        feature_names[idx] 
-        for idx, score in enumerate(tfidf_scores) 
-        if score > 0
-    ]
-    
-    # Riordina e restituisce le keywords
-    return ", ".join(sorted(keywords, key=lambda x: len(x), reverse=True)[:top_n]).title()
+        return ["N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"]
 
 if __name__ == "__main__":
     import time
@@ -134,7 +102,7 @@ if __name__ == "__main__":
     start_time = time.time()
     
     # Usa ThreadPoolExecutor per l'elaborazione parallela
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=os.cpu_count()-1) as executor:
         # Mappa le chiamate API in parallelo
         results = list(executor.map(speech_info, dataset["Surname"], dataset["Speech"]))
     
@@ -151,12 +119,14 @@ if __name__ == "__main__":
     dataset["Topic"] = [row[3] for row in speech_data]
     dataset["Cognitive Bias"] = [row[4] for row in speech_data]
     dataset["Summary"] = [row[5] for row in speech_data]
+    dataset["Keywords"] = [row[6] for row in speech_data]
+    dataset["Underlying narrative"] = [row[7].replace(";", "\n\n") for row in speech_data]
 
     # Fine della misurazione
     end_time = time.time()
     
     # Stampa risultati
-    print(dataset[["Surname", "Speech Date", "Speech location", "Speech occasion", "Topic", "Cognitive Bias", "Summary"]])
+    print(dataset[["Surname", "Speech Date", "Speech location", "Speech occasion", "Topic", "Cognitive Bias", "Summary", "Keywords", "Underlying narrative"]])
     
     # Calcolo del tempo di esecuzione
     total_seconds = end_time - start_time
@@ -164,11 +134,6 @@ if __name__ == "__main__":
     minutes = int((total_seconds % 3600) // 60)
     seconds = total_seconds % 60
     print("Tempo di esecuzione: %d ore, %d minuti, %.2f secondi" % (hours, minutes, seconds))
-
-    # Aggiunge le keywords
-    dataset["Keywords"] = dataset["Speech"].apply(keywords)
-
-    # print(dataset[["Surname", "Keywords"]])
     
     # Salva il dataset
     dataset.to_csv("src/dataset/speech-info-1.csv", index=False, sep=",")
