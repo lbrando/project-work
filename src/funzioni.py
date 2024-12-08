@@ -674,4 +674,4 @@ def analyze_persuasion(text):
     total_score = sum(normalized_scores.values())
     normalized_scores["total_score"] = round(total_score, 3) # arrotondare a 3 - scelta comune per rappresentare valori numerici in cui la precisione oltre il millesimo non è necessaria
     
-    return normalized_scores # restituisce il dizionario con tutti gli score
+    return '\n'.join("%s: %s" % (k.replace('_', ' ').title(), v) for k, v in normalized_scores.items()) # restituisce gli score
