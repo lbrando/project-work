@@ -1,0 +1,24 @@
+{
+    "InternalPDFViewer": {
+        "Embedded": true,
+        "File": "Documentation.pdf"
+    },
+    "Session": {
+        "Bookmarks": [
+        ],
+        "CurrentFile": "Documentation.tex",
+        "FileVersion": 1,
+        "Files": [
+            {
+                "Col": 13,
+                "EditorGroup": 0,
+                "FileName": "Documentation.tex",
+                "FirstLine": 0,
+                "FoldedLines": "",
+                "Line": 151
+            }
+        ],
+        "MasterFile": "",
+        "VerticalSplit": true
+    }
+}
