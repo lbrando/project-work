@@ -268,7 +268,7 @@ model = AutoModel.from_pretrained("sentence-transformers/
 Il diagramma illustra un flusso di interazioni tra quattro attori principali: User, Operating System, OpenAI e Completion.\\
 L'utente avvia il processo.\\
 Il sistema operativo legge l'API Key necessaria per interagire con i servizi OpenAI. Questa chiave è memorizzata localmente in un file specifico ("src/api key/API-GLHF.XE").
-L'utente riceve l'API Key dall'Operating System e chiama una funzione denominata "speech info", passando come parametri "politician" e "speech".\\
+L'utente riceve l'API Key dall'Operating System e chiama una funzione denominata "speech\_info", passando come parametri "politician" e "speech".\\
 L'Operating System crea un client OpenAI utilizzando l'API Key ottenuta in precedenza. Questo client servirà per comunicare con i servizi di OpenAI.
 Il client OpenAI invia una richiesta di completamento al modello di linguaggio "ht meta-liama/Meta-Liama-3.1-4058-instruct".\\
 Il modello di linguaggio genera il testo completato e lo restituisce al client OpenAI.	
