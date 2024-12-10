@@ -28,7 +28,7 @@ politici = {}
 # Imposta la pagina di wikipedia in inglese
 wikipedia.set_lang("en")
 
-# Legge la API key
+# Legge la API key di GLHF
 os.environ["OPENAI_API_KEY"] = open("src/api key/API-GLHF.txt", "r").read()
 
 # Disabilita parallelismo dei tokenizer per evitare deadlock
@@ -41,6 +41,11 @@ elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available(): # Per
     device = "mps"
 else:  # CPU come fallback
     device = "cpu"
+
+def remove_links(text):
+    if isinstance(text, str):
+        return re.sub(r'http\S+|www\.\S+', '', text)
+    return "Not a string"
 
 # Verifica che la pagina si riferisca ad un politico
 def verify_politician(titolo):
@@ -378,7 +383,7 @@ def detect_propaganda_type(text, classifier=propaganda_classifier, chunk_size=51
     for chunk in text_chunks:
         # Classifica il chunk
         is_propaganda_by_model = classifier(chunk, truncation=True, max_length=chunk_size)[0]['label'] == "propaganda"
-        criteria_counts, predominant_type = contains_propaganda_criteria(chunk)
+        criteria_counts, _ = contains_propaganda_criteria(chunk)
  
         # Analizza le frasi del chunk
         if is_propaganda_by_model or criteria_counts:
@@ -480,9 +485,6 @@ def offsets(speech, data):
     return "\n".join(offsets.keys()), "\n".join("%s: %s" % (key, ", ".join(element)) for key, element in offsets.items())
 
 def is_formal(speech):
-    if len(speech) <= 150:
-        return "N/A"
-    
     blob = TextBlob(speech)
     # Bassa soggettività indica formalità
     if blob.sentiment.subjectivity < 0.5:

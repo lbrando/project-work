@@ -14,8 +14,16 @@ data_output = "src/dataset/speech-b.csv"
 # Seleziona il percorso in cui salvare il word embedding
 embedding_output = "src/word_embedding.png"
 
-# Legge il dataset e da il nome alle colonne
-dataset = pd.read_table(data_folder, sep="\t", names=["Surname", "Code", "Speech"])
+# Legge il dataset e da il nome alle colonne, eliminando eventuali colonne vuote o duplicate
+dataset = pd.read_table(data_folder, sep="\t", names=["Surname", "Code", "Speech"]).dropna().drop_duplicates()
+
+# Cleaning del dataset
+# Rimuove i link dai testi
+dataset["Speech"] = dataset["Speech"].apply(fn.remove_links)
+# Filtra il dataset per mantenere solo le utilizzabili
+dataset = dataset[(dataset["Speech"].str.len() >= 200) &
+                  (dataset["Code"].isin([0, 1])) &
+                  dataset["Surname"].apply(lambda x: isinstance(x, str))]
 
 # Funzione per visualizzare un'animazione di caricamento
 def loading_animation(message, stop_event, completed_message):
