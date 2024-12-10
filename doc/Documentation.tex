@@ -27,8 +27,7 @@
 \usetikzlibrary{arrows}
 \usepackage{graphicx} % Importa il pacchetto graphicx per l'inserimento di immagini
 \usepackage{multicol} % Per avere la multicolonna
-% Imposta i margini del documento
-\usepackage[a4paper, top=3cm, bottom=3cm, left=3cm, right=3cm, bindingoffset=1cm]{geometry}
+\usepackage[a4paper, top=3cm, bottom=4cm, left=3cm, right=3cm, includehead, includefoot]{geometry}
 % Imposta il carattere Times New Roman
 \usepackage{mathptmx}
 \usepackage{titlesec} % Per \HRule
@@ -119,8 +118,6 @@ In una prima fase, il team si e' occupato dello studio e della definizione di du
 
 	\begin{quote}"La propaganda puo' essere definita come la diffusione deliberata e sistematica di messaggi indirizzati a un determinato uditorio, con l'obiettivo di creare un'immagine positiva o negativa di determinati fenomeni (persone, movimenti, eventi, istituzioni, ecc.) e di stimolare determinati comportamenti. La propaganda e' quindi uno sforzo consapevole e sistematico volto a influenzare le opinioni e le azioni di un pubblico o di un'intera societa'. In questo contesto, il termine 'propaganda' viene originariamente utilizzato dalla Chiesa cattolica per indicare attivita' di proselitismo, senza connotazioni esplicitamente negative." \end{quote}
 	
-\newpage
-
 Successivamente, e' stato ampliato lo studio sulla persuasione e le tecniche di propaganda, approfondendo la lettura di testi specifici.\\
 Lo studio condotto sulla propaganda si basa principalmente su due lavori: \textbf{'The Science of Persuasion' di Robert B. Cialdini} e \textbf{'A Survey on Computational Propaganda Detection' di G. Da San Martino, S. Cresci, A. Barron-Cede, S. Yu, R. Di Pietro e P. Nakov}.\\
 Il primo paper esplicita come la persuasione sia la base della propaganda e si fondi su sei principi chiave:
@@ -137,14 +134,12 @@ Il primo paper esplicita come la persuasione sia la base della propaganda e si f
 	\item \textbf{Conoscenza:}\\
 	La conoscenza e' potere. Sapere come funzionano i principi di persuasione puo' dare un vantaggio nelle interazioni sociali e nelle decisioni quotidiane. Chi sa come usare queste tecniche in modo efficace puoì ottenere risultati migliori, mentre chi non le conosce puo' trovarsi in difficolta'.
 \end{itemize}
-\newpage
 Il secondo paper, \textit{A Survey on Computational Propaganda Detection}, ha offerto al team una panoramica  esaustiva sulle tecniche di rilevamento della propaganda computazionale, attraverso l'importanza di un approccio integrato che combini \textbf{l'analisi del linguaggio naturale (NLP)} e \textbf{l'analisi delle reti (Network Analysis)}.\\
 Le tecniche di rilevamento della propaganda si basano principalmente sull'analisi testuale, sfruttando strumenti avanzati di NLP per identificare e classificare le tecniche propagandistiche presenti nei testi.\\ Tra le principali attivita' spiccano la classificazione binaria, che determina se una frase contiene elementi propagandistici, e la classificazione multi-etichetta, che identifica frammenti testuali specifici utilizzando determinate tecniche e categorizzandoli. \\ Modelli contestuali come \textbf{BERT} e \textbf{RoBERTa}, utilizzati all'interno del codice del progetto, si sono dimostrati particolarmente efficaci nel migliorare la precisione e l'affidabilita' della classificazione.\\
 \\
 Un'ulteriore studio sulla propaganda e la narrativa e' stato effettuato tramite il paper \textbf{Reports of personal experiences and stories in argumentation: Datasets and Analysis} di N. Faalk e G. Lapesa, Institute for Natural Language Processing, University of Stuttgart.\\
 Il paper analizza la narrativa come un elemento essenziale dell'argomentazione e della discussione pubblica, ponendo particolare attenzione ai racconti personali e alle storie condivise dalle persone. Queste narrazioni, spesso basate su esperienze individuali e arricchite da elementi emotivi, si rivelano strumenti potenti per catturare l'attenzione, favorire l'empatia e rendere gli argomenti più accessibili e relazionabili.\\
 
-\newpage
 
 La ricerca ha sottolineato come le narrazioni personali possano migliorare la qualita' del dibattito, aumentando la persuasivita' degli argomenti e facilitando la comprensione reciproca tra i partecipanti.\\ In contesti complessi, come le discussioni su questioni sociali, le sole informazioni fattuali potrebbero non essere sufficienti a comunicare l'urgenza o l'importanza di una tematica. Le storie, in questi casi, diventano un mezzo indispensabile per costruire un dialogo piu' profondo e consapevole.\\ 
 Queste conoscenze hanno guidato il team nello sviluppo del codice, assicurando che le soluzioni implementate tenessero conto delle dinamiche narrative e delle loro caratteristiche, per un'analisi piu' accurata e sensibile del contenuto testuale.
@@ -162,7 +157,6 @@ E' stata inoltre integrata un'intelligenza artificiale basata sui modelli di Ope
 os.environ["OPENAI_API_KEY"] = open("src/api key/API-GLHF.txt", "r").read()
 	\end{lstlisting}
 	
-\newpage
 Le librerie utilizzate sono le seguenti:
 \begin{itemize}
 	\item \textbf{os}: serve per interagire con il sistema operativo, permettendo di gestire file, directory, variabili d'ambiente e processi.  
@@ -187,13 +181,11 @@ Le librerie utilizzate sono le seguenti:
 	\item \textbf{typing}: modulo della libreria standard Python per fornire annotazioni di tipo statico, inclusi tipi complessi come List, Tuple, Dict, Union e altro, per una programmazione più leggibile e sicura.
 \end{itemize}
 
-\newpage
 \section{Descrizione del codice}
 Il codice sviluppato prende in input un file TSV e rinomina le colonne in surname, code e speech per uniformare i dati.\\
 Successivamente, sfruttando il modello Llama, raccoglie informazioni aggiuntive come fullname, birthday, birthplace, death day, death place, political party, speech date, speech location, speech occasion, topic, cognitive bias e produce il riassunto dello speech. \\
 Inoltre, genera analisi avanzate come la narrativa di sottofondo, il contesto, la struttura retorica e le keywords.\\
 Parallelamente, una serie di modelli pre-addestrati viene utilizzata per analisi specifiche: sentiment analysis, emotion analysis, propaganda detection (incluso il tipo di propaganda e la localizzazione degli offset), toxicity classification, persuasion analysis, TF-IDF, narrative structure analysis, readability, formality e word embedding. Infine, i risultati vengono visualizzati graficamente per facilitare l’interpretazione delle relazioni e delle caratteristiche del testo.
-\newpage
 	\subsection{Modelli}
 	
 	Nel progetto sono stati utilizzati modelli pre-addestrati disponibili sulla piattaforma Hugging Face che hanno permesso al team di effettuare analisi complesse come la classificazione del testo, il riconoscimento di entita' e l'analisi delle narrazioni propagandistiche.\\
@@ -230,9 +222,6 @@ def split_text_sliding_window(text, chunk_size=512, overlap=128):
 
 	return chunks
 	\end{lstlisting}
-
-
-\newpage
 
 		\subsubsection{Sentiment Analysis}
 	
@@ -490,7 +479,7 @@ def speech_info(politician, speech):
 	except (openai.RateLimitError, Exception):
 	raise
 		\end{lstlisting}
-\newpage		
+
 		\subsection{Speech Data}
 		Questa funzione e' progettata per estrarre i dati associati a un determinato discorso (speech) da un dizionario (results dict) e formattarli in un array con esattamente 8 valori, gestendo eventuali errori.
 		\begin{lstlisting}
@@ -524,7 +513,7 @@ def split_into_sentences(text):
 	sentence_endings = re.compile(r'(?<=[.!?])\s+')
 	return sentence_endings.split(text)
 	\end{lstlisting}
-	\newpage
+
 		\subsection{Propaganda Criteria}
 La funzione analizza un testo per rilevare la presenza di elementi riconducibili a tecniche di propaganda.\\ Confronta il contenuto del testo con un insieme di parole o frasi chiave definite per ciascun criterio, come toni accusatori, distorsione dell’opposizione o appelli alla paura. \\Per ogni criterio, conta quante volte le frasi chiave sono presenti nel testo. \\Se vengono rilevati uno o piu' criteri, restituisce un dizionario con il conteggio delle occorrenze e il criterio predominante (quello con piu' corrispondenze). \\Se non viene rilevato nulla, restituisce `None`.	
 	\begin{lstlisting}
@@ -549,10 +538,11 @@ def contains_propaganda_criteria(text):
 	predominant_type = max(detected_types, key=detected_types.get)
 	return detected_types, predominant_type
 	\end{lstlisting}
-	\newpage
+
 		\subsection{Detect Propaganda Type}
 La funzione suddivide il testo in chunk sovrapposti per garantire che tutte le parti siano valutate senza perdere contesto. \\ Ogni chunk viene analizzato sia tramite un modello di classificazione di propaganda che con una funzione che cerca criteri definiti di propaganda nel testo. \\ Se un chunk e' classificato come propaganda o contiene criteri rilevanti, viene ulteriormente diviso in frasi per un'analisi più dettagliata.\\
 Per ciascuna frase classificata come propaganda, vengono salvati il tipo di propaganda identificato e la frase stessa. \\Infine, se vengono rilevati risultati, la funzione restituisce i cinque tipi di propaganda piu' comuni, ciascuno accompagnato dalle frasi associate. \\Se non viene rilevato nulla, restituisce "Not identified".	
+
 	\begin{lstlisting}[language=python]
 def detect_propaganda_type(text, classifier=propaganda_classifier, chunk_size=512, overlap=128):
 	# Divide il testo in chunk
@@ -650,7 +640,6 @@ def classify_toxicity(text):
 	except Exception:
 		raise
 	\end{lstlisting}
-	\newpage
 		\subsection{Offsets}	
 La funzione calcola gli offset delle frasi identificate come propaganda all'interno di un discorso, fornendo la posizione iniziale e finale di ogni frase rilevata per ciascun tipo di propaganda attraverso il formato [inizio:fine].\\
 Se il parametro data contiene il valore "Not identified", la funzione restituisce direttamente questo valore con None, indicando che non sono state rilevate frasi di propaganda.		
@@ -677,7 +666,7 @@ def offsets(speech, data):
 	# Restituice il tipo di propaganda e gli offset per ogni tipo di propaganda
 	return "\n".join(offsets.keys()), "\n".join("%s: %s" % (key, ", ".join(element)) for key, element in offsets.items())
 	\end{lstlisting}
-	\newpage
+
 		\subsection{Formality}
 La funzione determina se un discorso e' formale o informale in base al suo livello di soggettivita' utilizzando il modulo TextBlob per analizzare il sentiment del testo. \\Se la lunghezza del discorso e' inferiore o uguale a 150 caratteri, la funzione restituisce "N/A", indicando che la valutazione non e' applicabile.\\
 Se il discorso e' piu' lungo, la funzione analizza la soggettivita' del testo: una soggettivita' inferiore a 0,5 suggerisce che il testo e' formale, mentre una soggettivita' piu' alta indica che il discorso e' informale.	
@@ -728,7 +717,7 @@ def analyze_narrative_structure(speech):
 	return "\n".join(["%s: %.3f" % (key, value) if isinstance(value, float) else "%s: %d" % (key, value) for key, value in narrative_metrics.items()])
 
 	\end{lstlisting}
-	\newpage		
+		
 			\subsection{TF-IDF}
 La funzione estrae le parole chiave piu' rilevanti da un discorso utilizzando il metodo TF-IDF. \\ Imposta un limite sul numero di parole chiave da restituire (top 5) e ignora le stop words.\\ Successivamente, calcola la matrice TF-IDF e seleziona le parole con i punteggi piu' alti. Le parole chiave e i loro punteggi vengono quindi ordinati e restituiti in una stringa formattata con i punteggi arrotondati a tre decimali, mettendo in evidenza le parole piu' significative nel testo.	
 	\begin{lstlisting}	
@@ -772,7 +761,9 @@ def tfidf(speech):
 	\end{lstlisting}
 
 		\subsection{Word Embeddings}
-La funzione calcola gli embeddings di un testo suddividendolo in chunk di dimensione specificata, con un sovrapposizione tra i chunk. \\Per ogni chunk, il testo viene tokenizzato e passato attraverso il modello per ottenere gli embeddings dei token. \\Gli embeddings di ogni token nel chunk vengono mediati (calcolando la media dei vettori) per ottenere un embedding complessivo per il chunk.\\ Alla fine, gli embeddings medi di tutti i chunk vengono mediati nuovamente per ottenere un embedding finale che rappresenta l'intero testo.		
+La funzione calcola gli embeddings di un testo suddividendolo in chunk di dimensione specificata, con un sovrapposizione tra i chunk. \\Per ogni chunk, il testo viene tokenizzato e passato attraverso il modello per ottenere gli embeddings dei token.
+\newpage
+Gli embeddings di ogni token nel chunk vengono mediati (calcolando la media dei vettori) per ottenere un embedding complessivo per il chunk.\\ Alla fine, gli embeddings medi di tutti i chunk vengono mediati nuovamente per ottenere un embedding finale che rappresenta l'intero testo.		
 	\begin{lstlisting}
 # Funzione per calcolare gli embeddings sui chunk
 	def calcola_embedding(testo, tokenizer, model, chunk_size=512, overlap=128):
@@ -795,8 +786,7 @@ La funzione calcola gli embeddings di un testo suddividendolo in chunk di dimens
 		final_embedding = np.zeros(model.config.hidden_size)
 		
 	return final_embedding
-	\end{lstlisting}
-	\newpage	
+	\end{lstlisting}	
 		\subsection{Visualize Embeddings}
 La funzione utilizza i word embedding per creare uno scatter plot in cui ogni punto rappresenti un discorso e ogni colore un politico. Discorsi semanticamente simili saranno altrettanto vicini sul grafico, discorsi semanticamente differenti verranno rappresentati più distanti.
 	\begin{lstlisting}
@@ -848,7 +838,7 @@ La funzione utilizza i word embedding per creare uno scatter plot in cui ogni pu
 		\centering
 		\includegraphics[width=0.9\textwidth]{immagini/word_embedding}
 	\end{figure}
-	\newpage	
+
 		\subsection{Analyze Persuasion}
 La funzione analizza un testo per valutare la presenza di elementi persuasivi. \\Usa spaCy per elaborare il testo e calcolare il numero di superlativi, domande retoriche, e parole emotive, di urgenza, autorita' e prova sociale. \\Ogni metrica e' normalizzata in base alla frequenza nel testo e ponderata con un peso specifico che riflette l'importanza persuasiva di ciascun elemento. \\Somma gli score normalizzati per ottenere un punteggio totale di persuasione. \\I risultati vengono restituiti in un formato leggibile, con ogni metrica e il suo valore separati da una riga.	
 	\begin{lstlisting}

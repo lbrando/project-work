@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.9)  10 DEC 2024 01:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.9)  10 DEC 2024 16:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -931,30 +931,30 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 
 Writing index file Documentation.idx
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 7
-2.
+1.
 (c:/texlive/2024/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 ) (./Documentation.aux)
 \openout1 = `Documentation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 72.
-LaTeX Font Info:    ... okay on input line 72.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
 \c@lstlisting=\count362
 
 (c:/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -979,8 +979,8 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Info: Redefining \it@ocap on input line 72.
-LaTeX Info: Redefining \it@ccap on input line 72.
+LaTeX Info: Redefining \it@ocap on input line 71.
+LaTeX Info: Redefining \it@ccap on input line 71.
 
 
 File italian.ldf warning: 
@@ -988,13 +988,13 @@ italian.ldf    With OT1 encoding guillemets are poorly faked
 italian.ldf    Use T1 encoding
 italian.ldf    or specify a font with command \CaporaliFrom
 italian.ldf    See the documentation concerning the babel-italian typesetting
-italian.ldf    on input line 72.
+italian.ldf    on input line 71.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 72.
+Package hyperref Info: Link coloring OFF on input line 71.
 (./Documentation.out) (./Documentation.out)
 \@outlinefile=\write5
 \openout5 = `Documentation.out'.
@@ -1007,17 +1007,16 @@ Package hyperref Info: Link coloring OFF on input line 72.
 * paper: a4paper
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
-* bindingoffset: 28.45274pt
-* modes: 
-* h-part:(L,W,R)=(85.35826pt, 398.33861pt, 85.35826pt)
-* v-part:(T,H,B)=(85.35826pt, 674.33032pt, 85.35826pt)
+* modes: includehead includefoot 
+* h-part:(L,W,R)=(85.35826pt, 426.79135pt, 85.35826pt)
+* v-part:(T,H,B)=(85.35826pt, 645.87756pt, 113.81102pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=398.33861pt
-* \textheight=674.33032pt
-* \oddsidemargin=41.54102pt
+* \textwidth=426.79135pt
+* \textheight=578.87756pt
+* \oddsidemargin=13.08827pt
 * \evensidemargin=13.08827pt
-* \topmargin=-23.91173pt
+* \topmargin=13.08827pt
 * \headheight=60.0pt
 * \headsep=50.0pt
 * \topskip=10.0pt
@@ -1040,12 +1039,12 @@ Package hyperref Info: Link coloring OFF on input line 72.
 <immagini/logodisamis.jpg, id=159, 999.735pt x 475.7775pt>
 File: immagini/logodisamis.jpg Graphic file (type jpg)
 <use immagini/logodisamis.jpg>
-Package pdftex.def Info: immagini/logodisamis.jpg  used on input line 103.
+Package pdftex.def Info: immagini/logodisamis.jpg  used on input line 102.
 (pdftex.def)             Requested size: 128.0374pt x 60.93124pt.
 <immagini/logounisa.png, id=160, 351.3125pt x 351.3125pt>
 File: immagini/logounisa.png Graphic file (type png)
 <use immagini/logounisa.png>
-Package pdftex.def Info: immagini/logounisa.png  used on input line 103.
+Package pdftex.def Info: immagini/logounisa.png  used on input line 102.
 (pdftex.def)             Requested size: 85.35826pt x 85.35667pt.
 
 Package fancyhdr Warning: \headheight is too small (60.0pt): 
@@ -1091,7 +1090,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 4.
 
-Overfull \hbox (34.33812pt too wide) in paragraph at lines 17--17
+Overfull \hbox (5.88538pt too wide) in paragraph at lines 17--17
  [][] [][]\OT1/ptm/m/n/10 Funzione def de-tect[]propaganda[]type(text, clas-si-
 fier=propaganda[]classifier, chunk[]size=512, 
  []
@@ -1107,12 +1106,10 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.108 \newpage
+l.107 \newpage
                [1]
-
-[2]
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-28.
+25.
  (c:/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
@@ -1128,102 +1125,98 @@ Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no ¹ in font ptmr7t!
+
+
+[2]
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no   in font ptmr7t!
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no ¬ in font ptmr7t!
-
-
-[3]
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no ¹ in font ptmr7t!
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--146
+Underfull \hbox (badness 10000) in paragraph at lines 137--142
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--146
+Underfull \hbox (badness 10000) in paragraph at lines 137--142
 
  []
 
 
 
-[4]
-
-[5]
+[3]
 Missing character: There is no Â in font ptmr7t!
 Missing character: There is no · in font ptmr7t!
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
+
+
+[4]
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no   in font ptmr7t!
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no ¹ in font ptmr7t!
-
-
-[6]
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
 
 
-[7]
+[5]
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no ¹ in font ptmr7t!
 
 
-[8]
+[6]
 
-[9]
-<immagini/speechscraping.png, id=293, 1016.29688pt x 639.89063pt>
+[7]
+<immagini/speechscraping.png, id=284, 1016.29688pt x 639.89063pt>
 File: immagini/speechscraping.png Graphic file (type png)
 <use immagini/speechscraping.png>
-Package pdftex.def Info: immagini/speechscraping.png  used on input line 278.
-(pdftex.def)             Requested size: 438.1749pt x 275.88966pt.
+Package pdftex.def Info: immagini/speechscraping.png  used on input line 267.
+(pdftex.def)             Requested size: 469.47308pt x 295.59328pt.
 
-Overfull \hbox (39.83629pt too wide) in paragraph at lines 278--279
+Overfull \hbox (42.68173pt too wide) in paragraph at lines 267--268
  [][] 
  []
 
 
-Overfull \hbox (12.5618pt too wide) in paragraph at lines 280--280
+Overfull \hbox (69.36824pt too wide) in paragraph at lines 269--269
 |[]\OT1/ptm/b/n/12 Funzione def de-tect[]propaganda[]type(text, clas-si-fier=pr
-opaganda[]classifier,
+opaganda[]classifier, chunk[]size=512,
  []
 
-<immagini/propagandatype.png, id=294, 967.36406pt x 1276.01718pt>
+<immagini/propagandatype.png, id=285, 967.36406pt x 1276.01718pt>
 File: immagini/propagandatype.png Graphic file (type png)
 <use immagini/propagandatype.png>
-Package pdftex.def Info: immagini/propagandatype.png  used on input line 283.
-(pdftex.def)             Requested size: 358.5023pt x 472.87831pt.
+Package pdftex.def Info: immagini/propagandatype.png  used on input line 272.
+(pdftex.def)             Requested size: 384.1096pt x 506.65952pt.
 
 
-[10 <./immagini/speechscraping.png>]
-<immagini/offset.png, id=301, 603.0028pt x 639.89063pt>
+[8 <./immagini/speechscraping.png>]
+<immagini/offset.png, id=293, 603.0028pt x 639.89063pt>
 File: immagini/offset.png Graphic file (type png)
 <use immagini/offset.png>
-Package pdftex.def Info: immagini/offset.png  used on input line 288.
-(pdftex.def)             Requested size: 398.33861pt x 422.70013pt.
+Package pdftex.def Info: immagini/offset.png  used on input line 277.
+(pdftex.def)             Requested size: 426.79135pt x 452.89998pt.
 
 
-[11 <./immagini/propagandatype.png>]
+[9 <./immagini/propagandatype.png>]
 
-[12 <./immagini/offset.png>]
+[10 <./immagini/offset.png>]
+
+[11]
+
+[12]
 
 [13]
-
-[14]
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no ¨ in font ptmr7t!
 
 
-[15]
-
-[16]
-
-[17{c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+[14{c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
@@ -1231,62 +1224,59 @@ Missing character: There is no Ã in font cmtt8!
 Missing character: There is no © in font cmtt8!
 
 
-[18]
+[15]
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no ¹ in font ptmr7t!
 
+
+[16]
+
+[17]
+
+[18]
 
 [19]
 
 [20]
 
 [21]
+Missing character: There is no Ã in font ptmr7t!
+Missing character: There is no ¹ in font ptmr7t!
+
 
 [22]
+<immagini/word_embedding.png, id=812, 715.7139pt x 426.1521pt>
+File: immagini/word_embedding.png Graphic file (type png)
+<use immagini/word_embedding.png>
+Package pdftex.def Info: immagini/word_embedding.png  used on input line 839.
+(pdftex.def)             Requested size: 384.1096pt x 228.71414pt.
 
-[23]
+
+[23 <./immagini/word_embedding.png>]
 
 [24]
 
 [25]
-
-[26]
-Missing character: There is no Ã in font ptmr7t!
-Missing character: There is no ¹ in font ptmr7t!
-<immagini/word_embedding.png, id=808, 715.7139pt x 426.1521pt>
-File: immagini/word_embedding.png Graphic file (type png)
-<use immagini/word_embedding.png>
-Package pdftex.def Info: immagini/word_embedding.png  used on input line 849.
-(pdftex.def)             Requested size: 358.5023pt x 213.46567pt.
-
-
-[27]
-
-[28 <./immagini/word_embedding.png>]
-
-[29]
-
-[30]
-<immagini/tempoesecuzione.png, id=923, 662.475pt x 372.39125pt>
+<immagini/tempoesecuzione.png, id=902, 662.475pt x 372.39125pt>
 File: immagini/tempoesecuzione.png Graphic file (type png)
 <use immagini/tempoesecuzione.png>
-Package pdftex.def Info: immagini/tempoesecuzione.png  used on input line 919.
-(pdftex.def)             Requested size: 358.5023pt x 201.52013pt.
+Package pdftex.def Info: immagini/tempoesecuzione.png  used on input line 909.
+(pdftex.def)             Requested size: 384.1096pt x 215.9132pt.
 
 
-[31 <./immagini/tempoesecuzione.png>]
+[26 <./immagini/tempoesecuzione.png>]
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no   in font ptmr7t!
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no   in font ptmr7t!
-<immagini/github.png, id=930, 3854.4pt x 2168.1pt>
+<immagini/github.png, id=909, 3854.4pt x 2168.1pt>
 File: immagini/github.png Graphic file (type png)
 <use immagini/github.png>
-Package pdftex.def Info: immagini/github.png  used on input line 928.
-(pdftex.def)             Requested size: 159.33301pt x 89.62048pt.
+Package pdftex.def Info: immagini/github.png  used on input line 918.
+(pdftex.def)             Requested size: 170.71393pt x 96.0054pt.
 
 
-[32 <./immagini/github.png>] (./Documentation.aux)
+[27 <./immagini/github.png>] (./Documentation.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-11-02>
@@ -1295,22 +1285,22 @@ Package rerunfilecheck Info: File `Documentation.out' has not changed.
 (rerunfilecheck)             Checksum: A9A540025D423AB423CD252ABBDFDEE5;6073.
  ) 
 Here is how much of TeX's memory you used:
- 29818 strings out of 473329
- 561294 string characters out of 5723857
- 1359956 words of memory out of 5000000
+ 29813 strings out of 473329
+ 561259 string characters out of 5723857
+ 1341965 words of memory out of 5000000
  51825 multiletter control sequences out of 15000+600000
  588017 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 116i,15n,121p,747b,2006s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 116i,15n,121p,747b,2091s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><c:/texl
 ive/2024/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb><c:/texlive/2024/t
 exmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/ty
 pe1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr
 i8a.pfb>
-Output written on Documentation.pdf (33 pages, 1181393 bytes).
+Output written on Documentation.pdf (28 pages, 1178984 bytes).
 PDF statistics:
- 1097 PDF objects out of 1200 (max. 8388607)
- 1026 compressed objects within 11 object streams
- 644 named destinations out of 1000 (max. 500000)
+ 1075 PDF objects out of 1200 (max. 8388607)
+ 1009 compressed objects within 11 object streams
+ 639 named destinations out of 1000 (max. 500000)
  357 words of extra memory for PDF output out of 10000 (max. 10000000)
 
