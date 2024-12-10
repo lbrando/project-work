@@ -122,17 +122,19 @@ Successivamente, e' stato ampliato lo studio sulla persuasione e le tecniche di 
 Lo studio condotto sulla propaganda si basa principalmente su due lavori: \textbf{'The Science of Persuasion' di Robert B. Cialdini} e \textbf{'A Survey on Computational Propaganda Detection' di G. Da San Martino, S. Cresci, A. Barron-Cede, S. Yu, R. Di Pietro e P. Nakov}.\\
 Il primo paper esplicita come la persuasione sia la base della propaganda e si fondi su sei principi chiave:
 \begin{itemize}
+	\item \textbf{Consistency:}\\
+	Questo principio si basa sull'idea che le persone tendono a comportarsi in modo coerente con le loro precedenti affermazioni o impegni. Una volta che qualcuno ha preso una posizione o ha fatto una promessa, e' piu' probabile che agisca in modo coerente con quella scelta per mantenere una buona immagine di se'.\\
 	\item \textbf{Validazione sociale:}\\
 	Le persone tendono a seguire cio' che vedono fare dagli altri.\\
 	Se molte persone fanno qualcosa, e' facile pensare che sia la cosa giusta o accettabile. Tuttavia, se questo principio viene usato male, ad esempio in una campagna che promuove comportamenti negativi, puo' portare a un aumento dell'accettazione di tali comportamenti, proprio perche' altre persone li praticano.
 	\item \textbf{Affinita':}\\
-	Le persone sono più inclini a dire di sì a chi gli piace. Quando c’e' una connessione personale o un’affinita', e' più facile che una persona accetti una richiesta. Complimenti sinceri e interazioni positive possono rafforzare questo legame, aumentando la predisposizione ad ascoltare e a rispondere favorevolmente.
+	Le persone sono piu' inclini a dire di si' a chi gli piace. Quando c’e' una connessione personale o un’affinita', e' piu' facile che una persona accetti una richiesta. Complimenti sinceri e interazioni positive possono rafforzare questo legame, aumentando la predisposizione ad ascoltare e a rispondere favorevolmente.
 	\item \textbf{Autorita':}\\
 	Le persone tendono a seguire i consigli di chi percepiscono come un'autorita' o un esperto. L'autorita' puo' essere riconosciuta da titoli, dall'abbigliamento o dal comportamento di una persona, e questo influisce molto sulle decisioni e le azioni degli altri.
 	\item \textbf{Scarsita':}\\
 	Quando qualcosa e' raro o difficile da ottenere, sembra piu' prezioso. La percezione di scarsita' aumenta il desiderio di quella cosa. Questo principio e' spesso usato nel marketing per creare un senso di urgenza e spingere i consumatori a competere per un'opportunità limitata.
 	\item \textbf{Conoscenza:}\\
-	La conoscenza e' potere. Sapere come funzionano i principi di persuasione puo' dare un vantaggio nelle interazioni sociali e nelle decisioni quotidiane. Chi sa come usare queste tecniche in modo efficace puoì ottenere risultati migliori, mentre chi non le conosce puo' trovarsi in difficolta'.
+	La conoscenza e' potere. Sapere come funzionano i principi di persuasione puo' dare un vantaggio nelle interazioni sociali e nelle decisioni quotidiane. Chi sa come usare queste tecniche in modo efficace puo' ottenere risultati migliori, mentre chi non le conosce puo' trovarsi in difficolta'.
 \end{itemize}
 Il secondo paper, \textit{A Survey on Computational Propaganda Detection}, ha offerto al team una panoramica  esaustiva sulle tecniche di rilevamento della propaganda computazionale, attraverso l'importanza di un approccio integrato che combini \textbf{l'analisi del linguaggio naturale (NLP)} e \textbf{l'analisi delle reti (Network Analysis)}.\\
 Le tecniche di rilevamento della propaganda si basano principalmente sull'analisi testuale, sfruttando strumenti avanzati di NLP per identificare e classificare le tecniche propagandistiche presenti nei testi.\\ Tra le principali attivita' spiccano la classificazione binaria, che determina se una frase contiene elementi propagandistici, e la classificazione multi-etichetta, che identifica frammenti testuali specifici utilizzando determinate tecniche e categorizzandoli. \\ Modelli contestuali come \textbf{BERT} e \textbf{RoBERTa}, utilizzati all'interno del codice del progetto, si sono dimostrati particolarmente efficaci nel migliorare la precisione e l'affidabilita' della classificazione.\\
@@ -205,8 +207,8 @@ Parallelamente, una serie di modelli pre-addestrati viene utilizzata per analisi
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 	\end{lstlisting}
 
-	Per gestire il limite di 512 caratteri e' stata implementata una  funzione che suddivide automaticamente i testi più lunghi in segmenti compatibili con il modello, assicurando che ogni frammento sia elaborato correttamente.\\
-	Successivamente, i risultati parziali vengono aggregati per fornire un'analisi completa e coerente del testo originale, garantendo cosi la gestione efficace di documenti di grandi dimensioni.
+	Per gestire il limite di 512 caratteri e' stata implementata una  funzione che suddivide automaticamente i testi piu' lunghi in segmenti compatibili con il modello, assicurando che ogni frammento sia elaborato correttamente.\\
+	Successivamente, i risultati parziali vengono aggregati per fornire un'analisi completa e coerente del testo originale, garantendo cosi' la gestione efficace di documenti di grandi dimensioni.
 	\begin{lstlisting}
 # Funzione per creare chunk con finestra scorrevole
 def split_text_sliding_window(text, chunk_size=512, overlap=128):
@@ -261,17 +263,45 @@ model = AutoModel.from_pretrained("sentence-transformers/
 \end{lstlisting}
 \newpage
 	\section{Sequence Diagram}
+	
 	\subsection{Funzione def speech\_info(politician,speech)}
+Il diagramma illustra un flusso di interazioni tra quattro attori principali: User, Operating System, OpenAI e Completion.\\
+L'utente avvia il processo.\\
+Il sistema operativo legge l'API Key necessaria per interagire con i servizi OpenAI. Questa chiave è memorizzata localmente in un file specifico ("src/api key/API-GLHF.XE").
+L'utente riceve l'API Key dall'Operating System e chiama una funzione denominata "speech info", passando come parametri "politician" e "speech".\\
+L'Operating System crea un client OpenAI utilizzando l'API Key ottenuta in precedenza. Questo client servirà per comunicare con i servizi di OpenAI.
+Il client OpenAI invia una richiesta di completamento al modello di linguaggio "ht meta-liama/Meta-Liama-3.1-4058-instruct".\\
+Il modello di linguaggio genera il testo completato e lo restituisce al client OpenAI.	
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=1.1\textwidth]{immagini/speechscraping}
 	\end{figure}
+	
 	\subsection{Funzione def detect\_propaganda\_type(text, classifier=propaganda\_classifier, chunk\_size=512, overlap=128)}
+Il diagramma descrive l'interazione sequenziale tra diversi oggetti all'interno di un sistema di analisi del testo.
+Il processo ha inizio con una chiamata a una funzione che suddivide un testo in finestre scorrevoli (sliding windows). Ciascuna finestra (chunk) viene processata individualmente. 
+Per ogni chunk:
+	\begin{itemize}
+		\item Viene eseguita una classificazione iniziale.
+		\item Il chunk viene suddiviso in frasi.
+		\item Si effettua un controllo sulla presenza di determinate parole o pattern (probabilmente legati alla propaganda).
+		\item Vengono conteggiate le frequenze di alcune tipologie di parole o frasi.
+		\item Vengono selezionate le prime 5 tipologie più frequenti.
+		\item Si effettuano ulteriori ricerche o calcoli basati sulle tipologie selezionate.
+	\end{itemize}
+Alla fine di questo processo iterativo, vengono restituiti i risultati dell'analisi, che includono una classificazione complessiva del testo e l'individuazione di specifici pattern propagandistici.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=0.9\textwidth]{immagini/propagandatype}
 	\end{figure}
+	
 	\subsection{Funzione def offsets(speech,data)}
+Il diagramma inizia con l'Utente che interagisce con il sistema.
+Viene effettuata una chiamata a offsets(speech data) che restituisce il valore "not identified" e None nel momento in cui la chiamata non va a buon fine.
+Viene, dunque, richiamata la funzione offset() che va a buon fine; il sistema inizializza un dizionario offsets, una struttura dati utilizzata per memorizzare informazioni relative agli offset.
+Il sistema individua l'inizio della frase all'interno dei dati passati e crea un array di offset con due elementi, "start" e "end".
+Il sistema, successivamente, aggiunge l'array di offset alla chiave dell'entry, che rappresenta un passaggio nel processo complessivo di gestione dei dati.
+Infine, la funzione offsets() restituisce i tipi formattati e gli offset.
 		\begin{figure}[H]
 		\centering
 		\includegraphics[width=1.0\textwidth]{immagini/offset}
@@ -788,7 +818,7 @@ Gli embeddings di ogni token nel chunk vengono mediati (calcolando la media dei 
 	return final_embedding
 	\end{lstlisting}	
 		\subsection{Visualize Embeddings}
-La funzione utilizza i word embedding per creare uno scatter plot in cui ogni punto rappresenti un discorso e ogni colore un politico. Discorsi semanticamente simili saranno altrettanto vicini sul grafico, discorsi semanticamente differenti verranno rappresentati più distanti.
+La funzione utilizza i word embedding per creare uno scatter plot in cui ogni punto rappresenti un discorso e ogni colore un politico. Discorsi semanticamente simili saranno altrettanto vicini sul grafico, discorsi semanticamente differenti verranno rappresentati piu' distanti.
 	\begin{lstlisting}
 # Visualizza gli embeddings su scatter plot
 	def visualize_embeddings(dataset, plt_show, output_path="word_embending.png"):

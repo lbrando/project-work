@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.9)  10 DEC 2024 16:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.9)  10 DEC 2024 19:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1113,34 +1113,30 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
  (c:/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-Missing character: There is no Ã in font ptmr7t!
-Missing character: There is no ¹ in font ptmr7t!
-Missing character: There is no Ã in font ptmr7t!
-Missing character: There is no ¬ in font ptmr7t!
-Missing character: There is no â in font ptmr7t!
-Missing character: There is no € in font ptmr7t!
-Missing character: There is no ™ in font ptmr7t!
-Missing character: There is no â in font ptmr7t!
-Missing character: There is no € in font ptmr7t!
-Missing character: There is no ™ in font ptmr7t!
-Missing character: There is no Ã in font ptmr7t!
-Missing character: There is no ¹ in font ptmr7t!
-
-
-[2]
-Missing character: There is no Ã in font ptmr7t!
-Missing character: There is no   in font ptmr7t!
-Missing character: There is no Ã in font ptmr7t!
-Missing character: There is no ¬ in font ptmr7t!
-Missing character: There is no Ã in font ptmr7t!
-Missing character: There is no ¹ in font ptmr7t!
-
-Underfull \hbox (badness 10000) in paragraph at lines 137--142
+Underfull \hbox (badness 10000) in paragraph at lines 125--127
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 137--142
+
+[2]
+Missing character: There is no â in font ptmr7t!
+Missing character: There is no € in font ptmr7t!
+Missing character: There is no ™ in font ptmr7t!
+Missing character: There is no â in font ptmr7t!
+Missing character: There is no € in font ptmr7t!
+Missing character: There is no ™ in font ptmr7t!
+Missing character: There is no Ã in font ptmr7t!
+Missing character: There is no   in font ptmr7t!
+Missing character: There is no Ã in font ptmr7t!
+Missing character: There is no ¹ in font ptmr7t!
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--144
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--144
 
  []
 
@@ -1165,58 +1161,64 @@ Missing character: There is no ™ in font ptmr7t!
 
 
 [5]
-Missing character: There is no Ã in font ptmr7t!
-Missing character: There is no ¹ in font ptmr7t!
-
 
 [6]
 
 [7]
+Missing character: There is no Ã in font ptmr7t!
+Missing character: There is no ¨ in font ptmr7t!
+Missing character: There is no Ã in font ptmr7t!
+Missing character: There is no   in font ptmr7t!
 <immagini/speechscraping.png, id=284, 1016.29688pt x 639.89063pt>
 File: immagini/speechscraping.png Graphic file (type png)
 <use immagini/speechscraping.png>
-Package pdftex.def Info: immagini/speechscraping.png  used on input line 267.
+Package pdftex.def Info: immagini/speechscraping.png  used on input line 277.
 (pdftex.def)             Requested size: 469.47308pt x 295.59328pt.
 
-Overfull \hbox (42.68173pt too wide) in paragraph at lines 267--268
+Overfull \hbox (42.68173pt too wide) in paragraph at lines 277--278
  [][] 
  []
 
 
-Overfull \hbox (69.36824pt too wide) in paragraph at lines 269--269
+Overfull \hbox (69.36824pt too wide) in paragraph at lines 280--280
 |[]\OT1/ptm/b/n/12 Funzione def de-tect[]propaganda[]type(text, clas-si-fier=pr
 opaganda[]classifier, chunk[]size=512,
  []
 
-<immagini/propagandatype.png, id=285, 967.36406pt x 1276.01718pt>
-File: immagini/propagandatype.png Graphic file (type png)
-<use immagini/propagandatype.png>
-Package pdftex.def Info: immagini/propagandatype.png  used on input line 272.
-(pdftex.def)             Requested size: 384.1096pt x 506.65952pt.
 
 
 [8 <./immagini/speechscraping.png>]
-<immagini/offset.png, id=293, 603.0028pt x 639.89063pt>
+Missing character: There is no Ã in font ptmr7t!
+Missing character: There is no ¹ in font ptmr7t!
+<immagini/propagandatype.png, id=292, 967.36406pt x 1276.01718pt>
+File: immagini/propagandatype.png Graphic file (type png)
+<use immagini/propagandatype.png>
+Package pdftex.def Info: immagini/propagandatype.png  used on input line 295.
+(pdftex.def)             Requested size: 384.1096pt x 506.65952pt.
+
+
+[9]
+<immagini/offset.png, id=297, 603.0028pt x 639.89063pt>
 File: immagini/offset.png Graphic file (type png)
 <use immagini/offset.png>
-Package pdftex.def Info: immagini/offset.png  used on input line 277.
+Package pdftex.def Info: immagini/offset.png  used on input line 307.
 (pdftex.def)             Requested size: 426.79135pt x 452.89998pt.
 
 
-[9 <./immagini/propagandatype.png>]
+[10 <./immagini/propagandatype.png>]
 
-[10 <./immagini/offset.png>]
-
-[11]
+[11 <./immagini/offset.png>]
 
 [12]
 
 [13]
+
+[14]
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no ¨ in font ptmr7t!
 
 
-[14{c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+[15{c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
@@ -1224,12 +1226,10 @@ Missing character: There is no Ã in font cmtt8!
 Missing character: There is no © in font cmtt8!
 
 
-[15]
+[16]
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no ¹ in font ptmr7t!
 
-
-[16]
 
 [17]
 
@@ -1240,43 +1240,42 @@ Missing character: There is no ¹ in font ptmr7t!
 [20]
 
 [21]
-Missing character: There is no Ã in font ptmr7t!
-Missing character: There is no ¹ in font ptmr7t!
-
 
 [22]
-<immagini/word_embedding.png, id=812, 715.7139pt x 426.1521pt>
+
+[23]
+<immagini/word_embedding.png, id=816, 715.7139pt x 426.1521pt>
 File: immagini/word_embedding.png Graphic file (type png)
 <use immagini/word_embedding.png>
-Package pdftex.def Info: immagini/word_embedding.png  used on input line 839.
+Package pdftex.def Info: immagini/word_embedding.png  used on input line 869.
 (pdftex.def)             Requested size: 384.1096pt x 228.71414pt.
 
 
-[23 <./immagini/word_embedding.png>]
-
-[24]
+[24 <./immagini/word_embedding.png>]
 
 [25]
-<immagini/tempoesecuzione.png, id=902, 662.475pt x 372.39125pt>
+
+[26]
+<immagini/tempoesecuzione.png, id=906, 662.475pt x 372.39125pt>
 File: immagini/tempoesecuzione.png Graphic file (type png)
 <use immagini/tempoesecuzione.png>
-Package pdftex.def Info: immagini/tempoesecuzione.png  used on input line 909.
+Package pdftex.def Info: immagini/tempoesecuzione.png  used on input line 939.
 (pdftex.def)             Requested size: 384.1096pt x 215.9132pt.
 
 
-[26 <./immagini/tempoesecuzione.png>]
+[27 <./immagini/tempoesecuzione.png>]
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no   in font ptmr7t!
 Missing character: There is no Ã in font ptmr7t!
 Missing character: There is no   in font ptmr7t!
-<immagini/github.png, id=909, 3854.4pt x 2168.1pt>
+<immagini/github.png, id=913, 3854.4pt x 2168.1pt>
 File: immagini/github.png Graphic file (type png)
 <use immagini/github.png>
-Package pdftex.def Info: immagini/github.png  used on input line 918.
+Package pdftex.def Info: immagini/github.png  used on input line 948.
 (pdftex.def)             Requested size: 170.71393pt x 96.0054pt.
 
 
-[27 <./immagini/github.png>] (./Documentation.aux)
+[28 <./immagini/github.png>] (./Documentation.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-11-02>
@@ -1285,8 +1284,8 @@ Package rerunfilecheck Info: File `Documentation.out' has not changed.
 (rerunfilecheck)             Checksum: A9A540025D423AB423CD252ABBDFDEE5;6073.
  ) 
 Here is how much of TeX's memory you used:
- 29813 strings out of 473329
- 561259 string characters out of 5723857
+ 29814 strings out of 473329
+ 561266 string characters out of 5723857
  1341965 words of memory out of 5000000
  51825 multiletter control sequences out of 15000+600000
  588017 words of font info for 88 fonts, out of 8000000 for 9000
@@ -1297,10 +1296,10 @@ ive/2024/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb><c:/texlive/2024/t
 exmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/ty
 pe1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr
 i8a.pfb>
-Output written on Documentation.pdf (28 pages, 1178984 bytes).
+Output written on Documentation.pdf (29 pages, 1181617 bytes).
 PDF statistics:
- 1075 PDF objects out of 1200 (max. 8388607)
- 1009 compressed objects within 11 object streams
- 639 named destinations out of 1000 (max. 500000)
+ 1079 PDF objects out of 1200 (max. 8388607)
+ 1012 compressed objects within 11 object streams
+ 640 named destinations out of 1000 (max. 500000)
  357 words of extra memory for PDF output out of 10000 (max. 10000000)
 
