@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass{article}
 \usepackage{imakeidx} % Per creare un vero indice
 \usepackage{amsmath}
 \usepackage{booktabs}
@@ -7,6 +7,8 @@
 \usepackage{amsfonts}
 \usepackage{tcolorbox}
 \usepackage{titlesec}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
 \usepackage{ragged2e}
 \usepackage{setspace}
 \usepackage{caption}
@@ -21,6 +23,7 @@
 \usepackage{graphics}
 \usepackage{multirow}
 \usepackage{listings}
+\usepackage{pythonhighlight}
 \usetikzlibrary{arrows}
 \usepackage{graphicx} % Importa il pacchetto graphicx per l'inserimento di immagini
 \usepackage{multicol} % Per avere la multicolonna
@@ -38,15 +41,28 @@
 	boxrule = 0pt  % no borders
 }
 
-\lstset{ %
-	backgroundcolor=\color{white},   % choose the background color
-	basicstyle=\footnotesize,        % size of fonts used for the code
-	breaklines=true,                 % automatic line breaking only at whitespace
-	captionpos=b,                    % sets the caption-position to bottom
-	commentstyle=\color{mygreen},    % comment style
-	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-	keywordstyle=\color{blue},       % keyword style
-	stringstyle=\color{mymauve},     % string literal style
+\lstset{ 
+	language=python, 
+	basicstyle=\ttfamily\footnotesize,
+	frame=single, 
+	numbers=left, 
+	numberstyle=\tiny\color{gray}, 
+	stepnumber=1, 
+	numbersep=5pt, 
+	backgroundcolor=\color{white}, 
+	showspaces=false, 
+	showstringspaces=false, 
+	showtabs=false, 
+	frame=single, 
+	rulecolor=\color{black}, 
+	tabsize=4, 
+	captionpos=b, 
+	breaklines=true, 
+	breakatwhitespace=true, 
+	title=\lstname, 
+	keywordstyle=\color{blue}, 
+	commentstyle=\color{purple}, 
+	stringstyle=\color{violet}, 
 }
 \renewcommand{\headrulewidth}{0pt}
 \setlength{\headheight}{60pt} % Altezza dell'intestazione
@@ -58,12 +74,12 @@
 	\begin{titlepage}
 	\thispagestyle{fancy} % Stile fancy solo per questa pagina
 	\fancyhf{} % Cancella intestazioni e piè di pagina di default
-	\fancyhead[L]{\includegraphics[width=4.5cm]{C:/Users/Denise/Downloads/logodisamis.jpg}} % Immagine a sinistra
-	\fancyhead[R]{\includegraphics[width=3cm]{C:/Users/Denise/Downloads/logounisa.png}} % Immagine a destra
+	\fancyhead[L]{\includegraphics[width=4.5cm]{immagini/logodisamis.jpg}} % Immagine a sinistra
+	\fancyhead[R]{\includegraphics[width=3cm]{immagini/logounisa.png}} % Immagine a destra
 		\begin{center}
 			
 			% Topo
-			\textsc{\LARGE Università degli Studi di Salerno}\\[1.5cm]
+			\textsc{\LARGE Universita' degli Studi di Salerno}\\[1.5cm]
 			\textsc{\large DIPARTIMENTO DI SCIENZE AZIENDALI - MANAGEMENT \& INNOVATION SYSTEMS}\\[0.2cm]
 			\textsc{\large Corso di Laurea Magistrale in Data Science \& Gestione dell'Innovazione}\\[0.2cm]
 			
@@ -77,9 +93,10 @@
 				\textbf{Docente: F. Orciuoli} \\[1.5cm]
 				\textbf{Gruppo N.1}\\
 				\textbf{\bfseries Candidati:\\}
-				\textsc{Bruno Maria Di Maio - Mat.0222800149}\\
+				\textsc{Denise Brancaccio - Mat. 0222800163}\\
 				\textsc{Lucia Brando - Mat.0222800162}\\
-				\textsc{Denise Brancaccio - Mat. 0222800163}
+				\textsc{Bruno Maria Di Maio - Mat.0222800149}
+				
 			\end{center}
 			
 		\end{center}
@@ -91,98 +108,113 @@
 \newpage
 
 	\section{Introduzione}
-Questa documentazione descrive il lavoro svolto per l'esame di Programming for Data Science sviluppato dal nostro gruppo di lavoro, volto all'analisi automatizzata di discorsi politici. Dopo una panoramica della traccia assegnata, vengono presentate le tecnologie utilizzate, l'organizzazione del lavoro e le ipotesi applicative del sistema. In seguito, nei successivi capitoli, vengono illustrate le funzionalità del codice, i diagrammi di sequenza per la soluzione dei requisiti, gli esempi pratici di utilizzo e l'analisi delle prestazioni. Infine, nell'ultima sezione, vengono riportati i risultati raggiunti e i link di riferimento per la repository Github del progetto.
+Questa documentazione descrive il lavoro svolto per l'esame di Programming for Data Science sviluppato dal nostro gruppo di lavoro, volto all'analisi automatizzata di discorsi politici. Dopo una panoramica della traccia assegnata, vengono presentate le tecnologie utilizzate, l'organizzazione del lavoro e le ipotesi applicative del sistema.\\
+In seguito, nei successivi capitoli, vengono illustrate le funzionalita' del codice, i diagrammi di sequenza per la soluzione dei requisiti, gli esempi pratici di utilizzo e l'analisi delle prestazioni. Infine, nell'ultima sezione, vengono riportati i risultati raggiunti e i link di riferimento per la repository Github del progetto.
 
 	\subsection{Project Work}
-La traccia del progetto ha richiesto lo sviluppo di una data pipeline per l'arricchimento di un dataset chiamato speech-a.tsv, composto da tre tipi di contenuto: nomi di politici, i loro discorsi e dei un valore binario ad essi associato. L'obiettivo finale è creare un nuovo dataset che supporti l'analisi e la detection di forme di propaganda all'interno dei discorsi. L'arricchimento prevede l'integrazione di informazioni sugli autori e i loro discorsi, l'aggiunta di feature linguistiche e contenutistiche come leggibilità, sentiment, parole chiave, e narrative sottostanti, oltre alla possibilità di individuare offset e tecniche specifiche di propaganda.
+La traccia del progetto ha richiesto lo sviluppo di una data pipeline per l'arricchimento di un dataset chiamato speech-a.tsv, composto da tre tipi di contenuto: nomi di politici, i loro discorsi e un valore binario ad essi associato. \\ L'obiettivo finale e' creare un nuovo dataset che supporti l'analisi e la detection di forme di propaganda all'interno dei discorsi. L'arricchimento prevede l'integrazione di informazioni sugli autori e i loro discorsi, l'aggiunta di feature linguistiche e contenutistiche come leggibilita', sentiment, parole chiave, e narrative sottostanti, oltre alla possibilita' di individuare offset e tecniche specifiche di propaganda.
 
 	\subsection{Definizioni utilizzate}
-In una prima fase, il team si è occupato dello studio e della definizione di due concetti fondamentali per lo svolgimento del lavoro: 'propaganda' e 'storytelling'. Per comprendere appieno cosa sia la propaganda, ci siamo riferiti alla seguente definizione fornita dal Dizionario di Politica di N. Bobbio, N. Matteucci e G. Pasquino (Torino, Utet Libreria, 2004, p. 775):
+In una prima fase, il team si e' occupato dello studio e della definizione di due concetti fondamentali per lo svolgimento del lavoro: 'propaganda' e 'storytelling'. Per comprendere appieno cosa sia la propaganda, ci siamo riferiti alla seguente definizione fornita dal Dizionario di Politica di N. Bobbio, N. Matteucci e G. Pasquino (Torino, Utet Libreria, 2004, p. 775):
 
-	\begin{quote}"La propaganda può essere definita come la diffusione deliberata e sistematica di messaggi indirizzati a un determinato uditorio, con l'obiettivo di creare un'immagine positiva o negativa di determinati fenomeni (persone, movimenti, eventi, istituzioni, ecc.) e di stimolare determinati comportamenti. La propaganda è quindi uno sforzo consapevole e sistematico volto a influenzare le opinioni e le azioni di un pubblico o di un'intera società. In questo contesto, il termine 'propaganda' viene originariamente utilizzato dalla Chiesa cattolica per indicare attività di proselitismo, senza connotazioni esplicitamente negative." \end{quote}
+	\begin{quote}"La propaganda puo' essere definita come la diffusione deliberata e sistematica di messaggi indirizzati a un determinato uditorio, con l'obiettivo di creare un'immagine positiva o negativa di determinati fenomeni (persone, movimenti, eventi, istituzioni, ecc.) e di stimolare determinati comportamenti. La propaganda e' quindi uno sforzo consapevole e sistematico volto a influenzare le opinioni e le azioni di un pubblico o di un'intera societa'. In questo contesto, il termine 'propaganda' viene originariamente utilizzato dalla Chiesa cattolica per indicare attivita' di proselitismo, senza connotazioni esplicitamente negative." \end{quote}
 	
 \newpage
 
-Successivamente, è stato ampliato lo studio sulla persuasione e le tecniche di propaganda, approfondendo la lettura di testi specifici.
-Lo studio condotto sulla propaganda si basa principalmente su due lavori: 'The Science of Persuasion' di Robert B. Cialdini e 'A Survey on Computational Propaganda Detection' di G. Da San Martino, S. Cresci, A. Barron-Cede, S. Yu, R. Di Pietro e P. Nakov.
-Il primo paper esplicita come la persuasione sia la base della propaganda e si fondi su sei principi chiave:\\
-\textbf{Validazione Sociale:} La validazione sociale può avere effetti controproducenti, ad esempio quando campagne informative evidenziano comportamenti indesiderati, portando a un aumento di tali comportamenti anziché a una loro diminuzione.\\
-\textbf{Affetto:} La connessione personale e l'affetto possono aumentare la propensione a dire di sì. Complimenti e la percezione di cooperazione tra le persone possono stimolare sentimenti positivi e comportamenti favorevoli.\\
-\textbf{Autorità:} L'autorità può influenzare il comportamento delle persone, come dimostrato da esperimenti in cui figure autoritarie attirano l'attenzione e inducono le persone a seguire il loro esempio.\\
-\textbf{Scarsità:} La scarsità di un prodotto o di informazioni può aumentare il suo valore percepito, spingendo le persone a compiere azioni per non perdere opportunità.\\
+Successivamente, e' stato ampliato lo studio sulla persuasione e le tecniche di propaganda, approfondendo la lettura di testi specifici.\\
+Lo studio condotto sulla propaganda si basa principalmente su due lavori: \textbf{'The Science of Persuasion' di Robert B. Cialdini} e \textbf{'A Survey on Computational Propaganda Detection' di G. Da San Martino, S. Cresci, A. Barron-Cede, S. Yu, R. Di Pietro e P. Nakov}.\\
+Il primo paper esplicita come la persuasione sia la base della propaganda e si fondi su sei principi chiave:
+\begin{itemize}
+	\item \textbf{Validazione sociale:}\\
+	Le persone tendono a seguire cio' che vedono fare dagli altri.\\
+	Se molte persone fanno qualcosa, e' facile pensare che sia la cosa giusta o accettabile. Tuttavia, se questo principio viene usato male, ad esempio in una campagna che promuove comportamenti negativi, puo' portare a un aumento dell'accettazione di tali comportamenti, proprio perche' altre persone li praticano.
+	\item \textbf{Affinita':}\\
+	Le persone sono più inclini a dire di sì a chi gli piace. Quando c’e' una connessione personale o un’affinita', e' più facile che una persona accetti una richiesta. Complimenti sinceri e interazioni positive possono rafforzare questo legame, aumentando la predisposizione ad ascoltare e a rispondere favorevolmente.
+	\item \textbf{Autorita':}\\
+	Le persone tendono a seguire i consigli di chi percepiscono come un'autorita' o un esperto. L'autorita' puo' essere riconosciuta da titoli, dall'abbigliamento o dal comportamento di una persona, e questo influisce molto sulle decisioni e le azioni degli altri.
+	\item \textbf{Scarsita':}\\
+	Quando qualcosa e' raro o difficile da ottenere, sembra piu' prezioso. La percezione di scarsita' aumenta il desiderio di quella cosa. Questo principio e' spesso usato nel marketing per creare un senso di urgenza e spingere i consumatori a competere per un'opportunità limitata.
+	\item \textbf{Conoscenza:}\\
+	La conoscenza e' potere. Sapere come funzionano i principi di persuasione puo' dare un vantaggio nelle interazioni sociali e nelle decisioni quotidiane. Chi sa come usare queste tecniche in modo efficace puoì ottenere risultati migliori, mentre chi non le conosce puo' trovarsi in difficolta'.
+\end{itemize}
+\newpage
+Il secondo paper, \textit{A Survey on Computational Propaganda Detection}, ha offerto al team una panoramica  esaustiva sulle tecniche di rilevamento della propaganda computazionale, attraverso l'importanza di un approccio integrato che combini \textbf{l'analisi del linguaggio naturale (NLP)} e \textbf{l'analisi delle reti (Network Analysis)}.\\
+Le tecniche di rilevamento della propaganda si basano principalmente sull'analisi testuale, sfruttando strumenti avanzati di NLP per identificare e classificare le tecniche propagandistiche presenti nei testi.\\ Tra le principali attivita' spiccano la classificazione binaria, che determina se una frase contiene elementi propagandistici, e la classificazione multi-etichetta, che identifica frammenti testuali specifici utilizzando determinate tecniche e categorizzandoli. \\ Modelli contestuali come \textbf{BERT} e \textbf{RoBERTa}, utilizzati all'interno del codice del progetto, si sono dimostrati particolarmente efficaci nel migliorare la precisione e l'affidabilita' della classificazione.\\
 \\
-Il secondo paper, A Survey on Computational Propaganda Detection, ha offerto al team una panoramica  esaustiva sulle tecniche di rilevamento della propaganda computazionale, attraverso l'importanza di un approccio integrato che combini \textbf{l'analisi del linguaggio naturale (NLP)} e \textbf{l'analisi delle reti (Network Analysis)}.\\
-Le tecniche di rilevamento della propaganda si basano principalmente sull'analisi testuale, sfruttando strumenti avanzati di NLP per identificare e classificare le tecniche propagandistiche presenti nei testi. Tra le principali attività spiccano la classificazione binaria, che determina se una frase contiene elementi propagandistici, e la classificazione multi-etichetta, che identifica frammenti testuali specifici utilizzando determinate tecniche e categorizzandoli. Modelli contestuali come \textbf{BERT} e \textbf{RoBERTa}, utilizzati all'interno del codice del progetto, si sono dimostrati particolarmente efficaci nel migliorare la precisione e l'affidabilità della classificazione.\\
-\\
-Un'ulteriore studio sulla propaganda e la narrativa è stato effettuato tramite il paper \textbf{Reports of personal experiences and stories in argumentation: Datasets and Analysis} di N. Faalk e G. Lapesa, Institute for Natural Language Processing, University of Stuttgart.
+Un'ulteriore studio sulla propaganda e la narrativa e' stato effettuato tramite il paper \textbf{Reports of personal experiences and stories in argumentation: Datasets and Analysis} di N. Faalk e G. Lapesa, Institute for Natural Language Processing, University of Stuttgart.\\
 Il paper analizza la narrativa come un elemento essenziale dell'argomentazione e della discussione pubblica, ponendo particolare attenzione ai racconti personali e alle storie condivise dalle persone. Queste narrazioni, spesso basate su esperienze individuali e arricchite da elementi emotivi, si rivelano strumenti potenti per catturare l'attenzione, favorire l'empatia e rendere gli argomenti più accessibili e relazionabili.\\
 
 \newpage
 
-La ricerca ha sottolineato come le narrazioni personali possano migliorare la qualità del dibattito, aumentando la persuasività degli argomenti e facilitando la comprensione reciproca tra i partecipanti. In contesti complessi, come le discussioni su questioni sociali, le sole informazioni fattuali potrebbero non essere sufficienti a comunicare l'urgenza o l'importanza di una tematica. Le storie, in questi casi, diventano un mezzo indispensabile per costruire un dialogo più profondo e consapevole.\\ 
-Queste conoscenze hanno guidato il team nello sviluppo del codice, assicurando che le soluzioni implementate tenessero conto delle dinamiche narrative e delle loro caratteristiche, per un'analisi più accurata e sensibile del contenuto testuale.
+La ricerca ha sottolineato come le narrazioni personali possano migliorare la qualita' del dibattito, aumentando la persuasivita' degli argomenti e facilitando la comprensione reciproca tra i partecipanti.\\ In contesti complessi, come le discussioni su questioni sociali, le sole informazioni fattuali potrebbero non essere sufficienti a comunicare l'urgenza o l'importanza di una tematica. Le storie, in questi casi, diventano un mezzo indispensabile per costruire un dialogo piu' profondo e consapevole.\\ 
+Queste conoscenze hanno guidato il team nello sviluppo del codice, assicurando che le soluzioni implementate tenessero conto delle dinamiche narrative e delle loro caratteristiche, per un'analisi piu' accurata e sensibile del contenuto testuale.
 
 	\subsection{Organizzazione del gruppo}
-	Il progetto si è svolto nell'arco di 20 giorni, con un impegno medio di circa 5 ore al giorno, seguendo una struttura collaborativa che ha ottimizzato l'assegnazione dei compiti. \\
-	Bruno Maria Di Maio ha iniziato immediatamente a lavorare sui primi due punti di scraping, concentrandosi sull'aggiunta di informazioni sull'autore e dei metadati relativi ai discorsi. Lucia Brando, cooperando con Denise Brancaccio, si è occupata dei punti successivi, con un'attenzione particolare alla definizione e selezione delle feature da includere nel dataset. \\
-	Successivamente, Bruno Maria Di Maio ha integrato e ottimizzato il codice, gestendo la creazione degli offset e implementando modelli di linguaggio per il trattamento avanzato del testo. Infine Denise Brancaccio, ha curato la redazione della documentazione finale, sintetizzando le scelte metodologiche e le fasi operative.\\
+	Il progetto si e' svolto nell'arco di 20 giorni, con un impegno medio di circa 5 ore al giorno, seguendo una struttura collaborativa che ha ottimizzato l'assegnazione dei compiti. \\
+	Bruno Maria Di Maio ha iniziato immediatamente a lavorare sui primi due punti di scraping, concentrandosi sull'aggiunta di informazioni sull'autore e dei metadati relativi ai discorsi. Lucia Brando, cooperando con Denise Brancaccio, si e' occupata dei punti successivi, con un'attenzione particolare alla definizione e selezione delle feature da includere nel dataset. \\
+	Successivamente, Bruno Maria Di Maio ha integrato e ottimizzato il codice, gestendo la creazione degli offset e implementando modelli di linguaggio per il trattamento avanzato del testo.\\ Infine Denise Brancaccio e Lucia Brando, hanno curato la redazione della documentazione finale, sintetizzando le scelte metodologiche e le fasi operative.\\
 	Questa suddivisione ha garantito un'organizzazione efficace e ha permesso di completare il progetto nei tempi previsti, soddisfacendo i requisiti richiesti dalla traccia.
 	
 	\subsection{Tecnologie utilizzate}
-Il codice è stato sviluppato utilizzando \textbf{Python 3.12.7} come versione di riferimento. Per lo sviluppo è stato utilizzato l'ambiente \textbf{VSCode}, configurato con i requisiti specifici del progetto.\\
-È stata inoltre integrata un'intelligenza artificiale basata sui modelli di OpenAI per svolgere alcune sezioni del progetto. L'accesso ai servizi di OpenAI avviene tramite una chiave API dedicata, memorizzata in un file locale per garantire la sicurezza, caricata nel seguente modo:
-	\begin{lstlisting}
+Il codice e' stato sviluppato utilizzando \textbf{Python 3.12.7} come versione di riferimento. Per lo sviluppo e' stato utilizzato l'ambiente \textbf{VSCode}, configurato con i requisiti specifici del progetto.\\
+E' stata inoltre integrata un'intelligenza artificiale basata sui modelli di OpenAI per svolgere alcune sezioni del progetto. L'accesso ai servizi di OpenAI avviene tramite una chiave API dedicata, memorizzata in un file locale per garantire la sicurezza, caricata nel seguente modo:
+	\begin{lstlisting}[language=python]
 os.environ["OPENAI_API_KEY"] = open("src/api key/API-GLHF.txt", "r").read()
 	\end{lstlisting}
 	
 \newpage
-Le librerie utilizzate sono le seguenti:\\
--\textbf{os}: serve per interagire con il sistema operativo, permettendo di gestire file, directory, variabili d'ambiente e processi.\\  
--\textbf{pandas}: è utilizzata per analisi e manipolazione dei dati, offrendo strutture come DataFrame e Series per lavorare con dati tabellari.\\  
--\textbf{openai}: è una libreria per interagire con le API di OpenAI, usata per implementare modelli di intelligenza artificiale come ChatGPT e DALL·E.\\  
--\textbf{concurrent.features}: serve per gestire l’esecuzione parallela di attività, facilitando l’utilizzo di thread o processi per operazioni asincrone.\\  
--\textbf{itertools}: offre strumenti per lavorare con iteratori, come combinazioni, permutazioni e generatori infiniti, utili per ottimizzare algoritmi.\\
--\textbf{transformers}: è una libreria di Hugging Face per utilizzare modelli di machine learning avanzati (es. BERT, GPT) in compiti di NLP e altro.  \\
--\textbf{time}: fornisce funzioni per lavorare con il tempo, come misurare la durata, formattare date o gestire ritardi temporali.\\  
--\textbf{threading}: consente di creare e gestire thread in Python, utili per eseguire più operazioni simultaneamente in un'applicazione.\\  
--\textbf{torch}: libreria principale di PyTorch, usata per il machine learning, con strumenti per creare e addestrare reti neurali. \\ 
--\textbf{nltk}: libreria per l'elaborazione del linguaggio naturale che include strumenti per analisi testuali, tokenizzazione, stemming, analisi grammaticale e creazione di modelli linguistici. \\
--\textbf{sklearn}: libreria per il machine learning che offre strumenti per classificazione, regressione, clustering e preprocessing dei dati, con un'interfaccia coerente e modulare. \\
--\textbf{wikipedia}: libreria Python che consente di interagire con l'API di Wikipedia per estrarre informazioni, riassunti, contenuti delle pagine e link correlati. \\
--\textbf{requests}: libreria per effettuare richieste HTTP in modo semplice e intuitivo. Supporta GET, POST, autenticazione, gestione di sessioni e manipolazione di header. \\
--\textbf{bs4} (\textit{Beautiful Soup}): libreria per il parsing di documenti HTML e XML, progettata per estrarre dati strutturati da pagine web. Utile per il web scraping. \\
--\textbf{collections}: modulo della libreria standard Python che offre tipi di dati specializzati come Counter, defaultdict, deque e OrderedDict per la gestione efficiente di collezioni di dati. \\
--\textbf{re}: modulo della libreria standard Python per la gestione delle espressioni regolari, utilizzato per ricerca, sostituzione e analisi avanzata di stringhe. \\
--\textbf{textstat}: libreria per l'analisi della leggibilità e della complessità dei testi. Fornisce metriche come l'indice di Flesch-Kincaid, SMOG, Gunning Fog e altri punteggi di leggibilità. \\
-\newpage
--\textbf{textblob}: libreria per l'elaborazione del linguaggio naturale che include strumenti per analisi del sentiment, traduzione, correzione grammaticale e analisi testuali semplificate. \\
--\textbf{spacy}: libreria avanzata per l'elaborazione del linguaggio naturale, ottimizzata per grandi dataset e applicazioni di deep learning. Include strumenti per tokenizzazione, analisi sintattica, riconoscimento di entità e embedding. \\
--\textbf{typing}: modulo della libreria standard Python per fornire annotazioni di tipo statico, inclusi tipi complessi come List, Tuple, Dict, Union e altro, per una programmazione più leggibile e sicura.\\
+Le librerie utilizzate sono le seguenti:
+\begin{itemize}
+	\item \textbf{os}: serve per interagire con il sistema operativo, permettendo di gestire file, directory, variabili d'ambiente e processi.  
+	\item \textbf{pandas}: e' utilizzata per analisi e manipolazione dei dati, offrendo strutture come DataFrame e Series per lavorare con dati tabellari.
+	\item \textbf{openai}: e' una libreria per interagire con le API di OpenAI, usata per implementare modelli di intelligenza artificiale come ChatGPT e DALL·E.
+	\item \textbf{concurrent.features}: serve per gestire l esecuzione parallela di attivita', facilitando l’utilizzo di thread o processi per operazioni asincrone.  
+	\item \textbf{itertools}: offre strumenti per lavorare con iteratori, come combinazioni, permutazioni e generatori infiniti, utili per ottimizzare algoritmi.
+	\item \textbf{transformers}: e' una libreria di Hugging Face per utilizzare modelli di machine learning avanzati (es. BERT, GPT) in compiti di NLP e altro.
+	\item \textbf{time}: fornisce funzioni per lavorare con il tempo, come misurare la durata, formattare date o gestire ritardi temporali.
+	\item \textbf{threading}: consente di creare e gestire thread in Python, utili per eseguire piu' operazioni simultaneamente in un'applicazione.\ 
+	\item \textbf{torch}: libreria principale di PyTorch, usata per il machine learning, con strumenti per creare e addestrare reti neurali.
+	\item \textbf{nltk}: libreria per l'elaborazione del linguaggio naturale che include strumenti per analisi testuali, tokenizzazione, stemming, analisi grammaticale e creazione di modelli linguistici.
+	\item \textbf{sklearn}: libreria per il machine learning che offre strumenti per classificazione, regressione, clustering e preprocessing dei dati, con un'interfaccia coerente e modulare.
+	\item \textbf{wikipedia}: libreria Python che consente di interagire con l'API di Wikipedia per estrarre informazioni, riassunti, contenuti delle pagine e link correlati.
+	\item \textbf{requests}: libreria per effettuare richieste HTTP in modo semplice e intuitivo. Supporta GET, POST, autenticazione, gestione di sessioni e manipolazione di header.
+	\item \textbf{bs4} (\textit{Beautiful Soup}): libreria per il parsing di documenti HTML e XML, progettata per estrarre dati strutturati da pagine web. Utile per il web scraping.
+	\item \textbf{collections}: modulo della libreria standard Python che offre tipi di dati specializzati come Counter, defaultdict, deque e OrderedDict per la gestione efficiente di collezioni di dati.
+	\item \textbf{re}: modulo della libreria standard Python per la gestione delle espressioni regolari, utilizzato per ricerca, sostituzione e analisi avanzata di stringhe.
+	\item \textbf{textstat}: libreria per l'analisi della leggibilita' della complessita' dei testi. Fornisce metriche come l'indice di Flesch-Kincaid, SMOG, Gunning Fog e altri punteggi di leggibilita'.
+	\item \textbf{textblob}: libreria per l'elaborazione del linguaggio naturale che include strumenti per analisi del sentiment, traduzione, correzione grammaticale e analisi testuali semplificate.
+	\item \textbf{spacy}: libreria avanzata per l'elaborazione del linguaggio naturale, ottimizzata per grandi dataset e applicazioni di deep learning. Include strumenti per tokenizzazione, analisi sintattica, riconoscimento di entità e embedding.
+	\item \textbf{typing}: modulo della libreria standard Python per fornire annotazioni di tipo statico, inclusi tipi complessi come List, Tuple, Dict, Union e altro, per una programmazione più leggibile e sicura.
+\end{itemize}
 
+\newpage
 \section{Descrizione del codice}
-Il codice sviluppato prende in input un file TSV e rinomina le colonne in surname, code e speech per uniformare i dati. Successivamente, sfruttando il modello Llama, raccoglie informazioni aggiuntive come fullname, birthday, birthplace, death day, death place, political party, speech date, speech location, speech occasion, topic, cognitive bias e produce il riassunto dello speech. Inoltre, genera analisi avanzate come la narrativa di sottofondo, il contesto, la struttura retorica e le keywords.\\
+Il codice sviluppato prende in input un file TSV e rinomina le colonne in surname, code e speech per uniformare i dati.\\
+Successivamente, sfruttando il modello Llama, raccoglie informazioni aggiuntive come fullname, birthday, birthplace, death day, death place, political party, speech date, speech location, speech occasion, topic, cognitive bias e produce il riassunto dello speech. \\
+Inoltre, genera analisi avanzate come la narrativa di sottofondo, il contesto, la struttura retorica e le keywords.\\
 Parallelamente, una serie di modelli pre-addestrati viene utilizzata per analisi specifiche: sentiment analysis, emotion analysis, propaganda detection (incluso il tipo di propaganda e la localizzazione degli offset), toxicity classification, persuasion analysis, TF-IDF, narrative structure analysis, readability, formality e word embedding. Infine, i risultati vengono visualizzati graficamente per facilitare l’interpretazione delle relazioni e delle caratteristiche del testo.
 \newpage
 	\subsection{Modelli}
 	
-	Nel progetto sono stati utilizzati modelli pre-addestrati disponibili sulla piattaforma Hugging Face. Questi modelli hanno permesso al team di effettuare analisi complesse come la classificazione del testo, il riconoscimento di entità e l'analisi delle narrazioni propagandistiche.
+	Nel progetto sono stati utilizzati modelli pre-addestrati disponibili sulla piattaforma Hugging Face che hanno permesso al team di effettuare analisi complesse come la classificazione del testo, il riconoscimento di entita' e l'analisi delle narrazioni propagandistiche.\\
 	I modelli sono stati caricati attraverso la seguente funzione:
-	\begin{lstlisting}
-def load_model_and_tokenizer(model_name, device=None):
-	tokenizer = AutoTokenizer.from_pretrained(model_name)
-	model = AutoModelForSequenceClassification.from_pretrained(model_name)
+	\begin{lstlisting}[language=python]
+	def load_model_and_tokenizer(model_name, device=None):
+		tokenizer = AutoTokenizer.from_pretrained(model_name)
+		model = AutoModelForSequenceClassification.from_pretrained(model_name)
 		
-	if device and device != "cpu":
-	model = model.to(device)
+		if device and device != "cpu":
+			model = model.to(device)
 		
 		return tokenizer, model
 	\end{lstlisting}
-	Per evitare deadblock è stato disattivato il parallelismo tra i tokenizers.
+	Per evitare deadblock e' stato disattivato il parallelismo tra i tokenizers.
 	\begin{lstlisting}
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 	\end{lstlisting}
 
-	È stata implementata una funzione dedicata per gestire il limite di 512 caratteri imposto da alcuni tokenizer. Questa funzione suddivide automaticamente i testi più lunghi in segmenti compatibili con il modello, assicurando che ogni frammento sia elaborato correttamente. Successivamente, i risultati parziali vengono aggregati per fornire un'analisi completa e coerente del testo originale, garantendo così la gestione efficace di documenti di grandi dimensioni.
+	Per gestire il limite di 512 caratteri e' stata implementata una  funzione che suddivide automaticamente i testi più lunghi in segmenti compatibili con il modello, assicurando che ogni frammento sia elaborato correttamente.\\
+	Successivamente, i risultati parziali vengono aggregati per fornire un'analisi completa e coerente del testo originale, garantendo cosi la gestione efficace di documenti di grandi dimensioni.
 	\begin{lstlisting}
 # Funzione per creare chunk con finestra scorrevole
 def split_text_sliding_window(text, chunk_size=512, overlap=128):
@@ -204,60 +236,62 @@ def split_text_sliding_window(text, chunk_size=512, overlap=128):
 
 		\subsubsection{Sentiment Analysis}
 	
-	\begin{lstlisting}
-sentiment_tokenizer, sentiment_model = load_model_and_tokenizer("nlptown/bert-base-multilingual-uncased-sentiment")
+\begin{lstlisting}
+sentiment_tokenizer, sentiment_model = load_model_and_tokenizer("nlptown/bert-base-
+	multilingual-uncased-sentiment")
 sentiment_labels = ["very negative", "negative", "neutral", "positive", "very positive"]
-	\end{lstlisting}
-	
-		\subsubsection{Emotion Analysis}
-		
-	\begin{lstlisting}
-emotion_tokenizer, emotion_model = load_model_and_tokenizer("bhadresh-savani/distilbert-base-uncased-emotion")
+\end{lstlisting}
+
+\subsubsection{Emotion Analysis}
+
+\begin{lstlisting}
+emotion_tokenizer, emotion_model = load_model_and_tokenizer("bhadresh-savani/distilbert-
+	base-uncased-emotion")
 emotion_labels = ["sadness", "joy", "love", "anger", "fear", "surprise"]
-	\end{lstlisting}
-	
-		\subsubsection{Propaganda Classifier}
-		
-	\begin{lstlisting}
+\end{lstlisting}
+
+\subsubsection{Propaganda Classifier}
+
+\begin{lstlisting}
 propaganda_classifier = pipeline("text-classification", model="IDA-SERICS/PropagandaDetection", device=0 if device != "cpu" else -1)
-	\end{lstlisting}
+\end{lstlisting}
 
-		\subsubsection{Toxicity Classifier}
-	\begin{lstlisting}
+\subsubsection{Toxicity Classifier}
+
+\begin{lstlisting}
 toxicity_classifier = pipeline("text-classification", model="citizenlab/distilbert-base-multilingual-cased-toxicity", device=0 if device != "cpu" else -1)
-	\end{lstlisting}
-	
-		\subsubsection{Word Embedding}
-	\begin{lstlisting}
-tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
-model = AutoModel.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
-	\end{lstlisting}
+\end{lstlisting}
 
+\subsubsection{Word Embedding}
+
+\begin{lstlisting}
+tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/
+	all-MiniLM-L6-v2")
+model = AutoModel.from_pretrained("sentence-transformers/
+	all-MiniLM-L6-v2")
+\end{lstlisting}
 \newpage
-	\textsc{\large METTI FOTO}\\[0.2cm]
-	\subsection{Sequence Diagram}
-	\begin{figure}[h!]
+	\section{Sequence Diagram}
+	\subsection{Funzione def speech\_info(politician,speech)}
+	\begin{figure}[h]
 		\centering
-		% Prima immagine
-		\includegraphics[width=0.8\textwidth]{speechscraping.png}
-		\caption{Sequence diagram del processo di speech scraping.}
-		\label{fig:speechscraping}
-		% Seconda immagine
-		\vspace{1em} % Aggiunge spazio tra le immagini
-		\includegraphics[width=0.8\textwidth]{propagandatype.png}
-		\caption{Sequence diagram del processo di propaganda type detection.}
-		\label{fig:propagandatype}
-		% Terza immagine
-		\vspace{1em} % Aggiunge spazio tra le immagini
-		\includegraphics[width=0.8\textwidth]{offset.png}
-		\caption{Sequence diagram del processo di individuazione degli offset.}
-		\label{fig:offset}
+		\includegraphics[width=1.1\textwidth]{immagini/speechscraping}
+	\end{figure}
+	\subsection{Funzione def detect\_propaganda\_type(text, classifier=propaganda\_classifier, chunk\_size=512, overlap=128)}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{immagini/propagandatype}
+	\end{figure}
+	\subsection{Funzione def offsets(speech,data)}
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=1.0\textwidth]{immagini/offset}
 	\end{figure}
 \newpage
-	\subsection{Funzioni}
+	\section{Funzioni}
 		
-		\subsubsection{Verify Politician}
-La funzione verifica se un dato titolo della pagina web corrisponde a una figura politica. Utilizza il riassunto della prima frase della pagina di Wikipedia e controlla se contiene parole chiave come "who", "politician" o "statesman". Se si verifica un errore di disambiguazione o la pagina non esiste, restituisce False.
+		\subsection{Verify Politician}
+La funzione verifica se un dato titolo della pagina web corrisponde a una figura politica. \\ Utilizza il riassunto della prima frase della pagina di Wikipedia e controlla se contiene parole chiave come "who", "politician" o "statesman". Se si verifica un errore di disambiguazione o la pagina non esiste, restituisce False.
 		\begin{lstlisting}
 def verify_politician(titolo):
 
@@ -271,9 +305,9 @@ def verify_politician(titolo):
 		return False
 		\end{lstlisting}
 		
-		\subsubsection{Get Politician Info}
-La funzione effettua una ricerca, verifica se il cognome è associato a un politico (tramite verify politician), e scarica l'HTML della pagina per analizzarlo con BeautifulSoup.
-Successivamente, in base al parametro richiesto, estrae e restituisce informazioni come nome, data e luogo di nascita, data e luogo di morte, o partito politico. Questi dati vengono salvati nel dizionario per eventuali richieste future.
+		\subsection{Get Politician Info}
+La funzione effettua una ricerca, verifica se il cognome e' associato a un politico (tramite verify politician), e scarica l'HTML della pagina per analizzarlo con BeautifulSoup.
+Successivamente, in base al parametro richiesto, estrae e restituisce informazioni come nome, data e luogo di nascita, data e luogo di morte, o partito politico. \\ Questi dati vengono salvati nel dizionario per eventuali richieste future.
 		\begin{lstlisting}
 # Ottiene le informazioni dal polico
 def get_info(cognome, parametro):
@@ -436,8 +470,9 @@ def get_info(cognome, parametro):
 	
 		\end{lstlisting}
 
-		\subsubsection{Speech Info}
-La funzione utilizza llama per ottenere varie informazioni sul discorso. Oltre alla data e al luogo in cui si è tenuto il discorso, attraverso il prompt vengono riportati anche l'occasione in cui si è tenuto, il topic di cui tratta, i cognitive bias, una summary e un'analisi dello storytelling.
+		\subsection{Speech Info}
+La funzione utilizza llama per ottenere varie informazioni sul discorso.\\
+Oltre alla data e al luogo in cui si e' tenuto il discorso, attraverso il prompt vengono riportati anche l'occasione in cui si è tenuto, il topic di cui tratta, i cognitive bias, una summary e un'analisi dello storytelling.
 		\begin{lstlisting}
 def speech_info(politician, speech):
 	try:
@@ -456,8 +491,8 @@ def speech_info(politician, speech):
 	raise
 		\end{lstlisting}
 \newpage		
-		\subsubsection{Speech Data}
-		Questa funzione è progettata per estrarre i dati associati a un determinato discorso (speech) da un dizionario (results dict) e formattarli in un array con esattamente 8 valori, gestendo eventuali errori.
+		\subsection{Speech Data}
+		Questa funzione e' progettata per estrarre i dati associati a un determinato discorso (speech) da un dizionario (results dict) e formattarli in un array con esattamente 8 valori, gestendo eventuali errori.
 		\begin{lstlisting}
 def get_speech_data(speech, results_dict):
 	try:
@@ -469,7 +504,7 @@ def get_speech_data(speech, results_dict):
 
 		\end{lstlisting}
 		
-		\subsubsection{Classify Text}
+		\subsection{Classify Text}
 La funzione classifica un testo in base a un modello pre-addestrato.
 	\begin{lstlisting}
 # Funzione unificata per classificare il testo
@@ -481,7 +516,7 @@ prediction = torch.argmax(probabilities, dim=1).item()
 return labels[prediction].capitalize()	
 	\end{lstlisting}
 	
-		\subsubsection{Split Sentences}
+		\subsection{Split Sentences}
 	La funzione suddivide un testo in singole frasi utilizzando una semplice espressione regolare.
 	\begin{lstlisting}
 # Dividi il testo in frasi usando una semplice regex
@@ -489,9 +524,9 @@ def split_into_sentences(text):
 	sentence_endings = re.compile(r'(?<=[.!?])\s+')
 	return sentence_endings.split(text)
 	\end{lstlisting}
-	
-		\subsubsection{Propaganda Criteria}
-La funzione analizza un testo per rilevare la presenza di elementi riconducibili a tecniche di propaganda. Confronta il contenuto del testo con un insieme di parole o frasi chiave definite per ciascun criterio, come toni accusatori, distorsione dell’opposizione o appelli alla paura. Per ogni criterio, conta quante volte le frasi chiave sono presenti nel testo. Se vengono rilevati uno o più criteri, restituisce un dizionario con il conteggio delle occorrenze e il criterio predominante (quello con più corrispondenze). Se non viene rilevato nulla, restituisce `None`.	
+	\newpage
+		\subsection{Propaganda Criteria}
+La funzione analizza un testo per rilevare la presenza di elementi riconducibili a tecniche di propaganda.\\ Confronta il contenuto del testo con un insieme di parole o frasi chiave definite per ciascun criterio, come toni accusatori, distorsione dell’opposizione o appelli alla paura. \\Per ogni criterio, conta quante volte le frasi chiave sono presenti nel testo. \\Se vengono rilevati uno o piu' criteri, restituisce un dizionario con il conteggio delle occorrenze e il criterio predominante (quello con piu' corrispondenze). \\Se non viene rilevato nulla, restituisce `None`.	
 	\begin{lstlisting}
 # Funzione per rilevare i criteri di propaganda
 def contains_propaganda_criteria(text):
@@ -514,11 +549,11 @@ def contains_propaganda_criteria(text):
 	predominant_type = max(detected_types, key=detected_types.get)
 	return detected_types, predominant_type
 	\end{lstlisting}
-		
-		\subsubsection{Detect Propaganda Type}
-La funzione suddivide il testo in chunk sovrapposti per garantire che tutte le parti siano valutate senza perdere contesto. Ogni chunk viene analizzato sia tramite un modello di classificazione di propaganda che con una funzione che cerca criteri definiti di propaganda nel testo. Se un chunk è classificato come propaganda o contiene criteri rilevanti, viene ulteriormente diviso in frasi per un'analisi più dettagliata.\\
-Per ciascuna frase classificata come propaganda, vengono salvati il tipo di propaganda identificato e la frase stessa. Infine, se vengono rilevati risultati, la funzione restituisce i cinque tipi di propaganda più comuni, ciascuno accompagnato dalle frasi associate. Se non viene rilevato nulla, restituisce "Not identified".	
-	\begin{lstlisting}
+	\newpage
+		\subsection{Detect Propaganda Type}
+La funzione suddivide il testo in chunk sovrapposti per garantire che tutte le parti siano valutate senza perdere contesto. \\ Ogni chunk viene analizzato sia tramite un modello di classificazione di propaganda che con una funzione che cerca criteri definiti di propaganda nel testo. \\ Se un chunk e' classificato come propaganda o contiene criteri rilevanti, viene ulteriormente diviso in frasi per un'analisi più dettagliata.\\
+Per ciascuna frase classificata come propaganda, vengono salvati il tipo di propaganda identificato e la frase stessa. \\Infine, se vengono rilevati risultati, la funzione restituisce i cinque tipi di propaganda piu' comuni, ciascuno accompagnato dalle frasi associate. \\Se non viene rilevato nulla, restituisce "Not identified".	
+	\begin{lstlisting}[language=python]
 def detect_propaganda_type(text, classifier=propaganda_classifier, chunk_size=512, overlap=128):
 	# Divide il testo in chunk
 	text_chunks = split_text_sliding_window(text, chunk_size, overlap)
@@ -549,11 +584,8 @@ def detect_propaganda_type(text, classifier=propaganda_classifier, chunk_size=51
 		# Conta la frequenza di ogni tipo di propaganda
 		types = [result["type"] for result in propaganda_results]
 		type_counts = Counter(types)
-
-		# Prendi le 5 tipologie più comuni
 		top_5_types = type_counts.most_common(5)
-
-		# Estrai i risultati per le 5 tipologie più comuni
+		# Estrai i risultati per le 5 tipologie piu comuni
 		results = []
 		for propaganda_type, _ in top_5_types:
 			sentences_of_type = [
@@ -571,12 +603,12 @@ def detect_propaganda_type(text, classifier=propaganda_classifier, chunk_size=51
 
 	\end{lstlisting}
 	
-		\subsubsection{Contains Toxicity Criteria}
+		\subsection{Contains Toxicity Criteria}
 
-La funzione analizza un testo per identificare criteri di tossicità basati su un insieme di categorie predefinite. Ogni categoria, come insulti, minacce o linguaggio violento, è associata a una lista di parole o frasi chiave indicative di quella forma di tossicità.\\
-Confronta il testo con le chiavi, calcola il numero di corrispondenze per ciascuna categoria, e restituisce un dizionario con i criteri rilevati e il loro conteggio. Inoltre, identifica quale categoria è predominante, ovvero quella con il maggior numero di corrispondenze. Se nessun criterio è rilevato, restituisce None.
+La funzione analizza un testo per identificare criteri di tossicita' basati su un insieme di categorie predefinite. \\Ogni categoria, come insulti, minacce o linguaggio violento, viene associata a una lista di parole o frasi chiave indicative di quella forma di tossicita'.\\
+Confronta il testo con le chiavi, calcola il numero di corrispondenze per ciascuna categoria, e restituisce un dizionario con i criteri rilevati e il loro conteggio. \\Inoltre, identifica quale categoria e' predominante, ovvero quella con il maggior numero di corrispondenze. \\Se nessun criterio viene rilevato, restituisce None.
 	\begin{lstlisting}
-# Funzione per rilevare i criteri di tossicità
+# Funzione per rilevare i criteri di tossicita
 def contains_toxicity_criteria(text):
 	criteria = {
 		"insults": ["idiot", "stupid", "moron", "fool", "scum", "loser", "crooked", "degenerate", "ignoramus"],
@@ -595,16 +627,16 @@ def contains_toxicity_criteria(text):
 	# Se non ci sono criteri rilevati, ritorna None
 	if not detected_types:
 		return None, None
-	# Identifica il tipo di tossicità
+	# Identifica il tipo di tossicita
 	predominant_type = max(detected_types, key=detected_types.get)
 	return detected_types, predominant_type
 	\end{lstlisting}
 	
-		\subsubsection{Classify Toxicity}
-La funzione  classifica un testo identificando eventuali criteri di tossicità. Utilizza la funzione contains toxicity criteria per analizzare il testo e determinare quali categorie di tossicità sono presenti, insieme al conteggio delle loro occorrenze.
-Se vengono rilevati criteri, questi vengono formattati come una lista leggibile in cui ogni riga mostra il nome del criterio (con spazi al posto degli underscore) e il numero di volte che è stato riscontrato.
+		\subsection{Classify Toxicity}
+La funzione  classifica un testo identificando eventuali criteri di tossicita'. \\Utilizza la funzione contains toxicity criteria per analizzare il testo e determinare quali categorie di tossicita' sono presenti, insieme al conteggio delle loro occorrenze.\\
+Se vengono rilevati criteri, questi vengono formattati come una lista leggibile in cui ogni riga mostra il nome del criterio (con spazi al posto degli underscore) e il numero di volte che e' stato riscontrato.
 	\begin{lstlisting}
-# Funzione per classificare la tossicità
+# Funzione per classificare la tossicita
 def classify_toxicity(text):
 	try:
 		# Rilevamento criteri
@@ -618,9 +650,9 @@ def classify_toxicity(text):
 	except Exception:
 		raise
 	\end{lstlisting}
-	
+	\newpage
 		\subsection{Offsets}	
-La funzione calcola gli offset delle frasi identificate come propaganda all'interno di un discorso, fornendo la posizione iniziale e finale di ogni frase rilevata per ciascun tipo di propaganda attraverso il formato [inizio:fine].
+La funzione calcola gli offset delle frasi identificate come propaganda all'interno di un discorso, fornendo la posizione iniziale e finale di ogni frase rilevata per ciascun tipo di propaganda attraverso il formato [inizio:fine].\\
 Se il parametro data contiene il valore "Not identified", la funzione restituisce direttamente questo valore con None, indicando che non sono state rilevate frasi di propaganda.		
 	\begin{lstlisting}
 def offsets(speech, data):
@@ -645,40 +677,40 @@ def offsets(speech, data):
 	# Restituice il tipo di propaganda e gli offset per ogni tipo di propaganda
 	return "\n".join(offsets.keys()), "\n".join("%s: %s" % (key, ", ".join(element)) for key, element in offsets.items())
 	\end{lstlisting}
-	
-		\subsubsection{Formality}
-La funzione determina se un discorso è formale o informale in base al suo livello di soggettività utilizzando il modulo TextBlob per analizzare il sentiment del testo. Se la lunghezza del discorso è inferiore o uguale a 150 caratteri, la funzione restituisce "N/A", indicando che la valutazione non è applicabile.\\
-Se il discorso è più lungo, la funzione analizza la soggettività del testo: una soggettività inferiore a 0,5 suggerisce che il testo è formale, mentre una soggettività più alta indica che il discorso è informale.	
+	\newpage
+		\subsection{Formality}
+La funzione determina se un discorso e' formale o informale in base al suo livello di soggettivita' utilizzando il modulo TextBlob per analizzare il sentiment del testo. \\Se la lunghezza del discorso e' inferiore o uguale a 150 caratteri, la funzione restituisce "N/A", indicando che la valutazione non e' applicabile.\\
+Se il discorso e' piu' lungo, la funzione analizza la soggettivita' del testo: una soggettivita' inferiore a 0,5 suggerisce che il testo e' formale, mentre una soggettivita' piu' alta indica che il discorso e' informale.	
 	\begin{lstlisting}
 def is_formal(speech):
 	if len(speech) <= 150:
 		return "N/A"
 	
 	blob = TextBlob(speech)
-	# Bassa soggettività indica formalità
+	# Bassa soggettivita indica formalita
 	if blob.sentiment.subjectivity < 0.5:
 		return "Formal"
 	else:
 		return "Informal"
 	\end{lstlisting}
 	
-		\subsubsection{Leggibilità}
-La funzione calcola diverse metriche di leggibilità di un discorso utilizzando il modulo textstat, che fornisce diversi indici per valutare quanto sia facile o difficile leggere un testo. Le metriche prese in considerazione sono: flesch reading ease, flesch-kincaid grade, gunning fog, SMOG index.
+		\subsection{Readablity}
+La funzione calcola diverse metriche di leggibilita' di un discorso utilizzando il modulo textstat, che fornisce diversi indici per valutare quanto sia facile o difficile leggere un testo. \\Le metriche prese in considerazione sono: \textit{flesch reading ease, flesch-kincaid grade, gunning fog, SMOG index}.
 	\begin{lstlisting}
-# Funzione per calcolare metriche di leggibilità
+# Funzione per calcolare metriche di leggibilita
 def calcola_legibilita(speech):
 	return {
-		"flesch_reading_ease": textstat.flesch_reading_ease(speech), # facilità di lettura basandosi sulla lunghezza delle frasi e sul numero di sillabe per parola
+		"flesch_reading_ease": textstat.flesch_reading_ease(speech), # facilita di lettura basandosi sulla lunghezza delle frasi e sul numero di sillabe per parola
 		"flesch_kincaid_grade": textstat.flesch_kincaid_grade(speech), #  anni di istruzione necessari per comprendere il testo
-		"gunning_fog": textstat.gunning_fog(speech), # complessità del speech in base alla lunghezza delle frasi e alla percentuale di parole complesse
+		"gunning_fog": textstat.gunning_fog(speech), # complessita del speech in base alla lunghezza delle frasi e alla percentuale di parole complesse
 		"smog_index": textstat.smog_index(speech), # come quello precedente
 		"text_standard": textstat.text_standard(speech) # sintetizzazione dei risultati in un livello scolastico approssimativo
 	}
 	\end{lstlisting}
 	
-		\subsubsection{Analyze Narrative Structure}
-La funzione analizza la struttura narrativa di un discorso, concentrandosi su vari aspetti legati alla lunghezza e alla variabilità delle frasi. In seguito alla tokenizzazione, viene calcolato il numero di parole all'interno di ogni token, generando una lista che rappresenta la lunghezza di ogni frase.
-Dopo aver ottenuto le lunghezze delle frasi, la funzione calcola diverse metriche narrative. La lunghezza media delle frasi viene determinata calcolando la media aritmetica del numero di parole per ciascuna frase. Viene poi calcolata la deviazione standard, che misura quanto le lunghezze delle frasi variano l'una dall'altra, dando un'idea della coerenza o della varietà nella struttura del discorso. Inoltre, la funzione conta il numero totale di frasi nel discorso e, infine, calcola un punteggio di complessità, che è il rapporto tra la lunghezza media delle frasi e la deviazione standard.		
+		\subsection{Analyze Narrative Structure}
+La funzione analizza la struttura narrativa di un discorso, concentrandosi su vari aspetti legati alla lunghezza e alla variabilita' delle frasi. \\In seguito alla tokenizzazione, viene calcolato il numero di parole all'interno di ogni token, generando una lista che rappresenta la lunghezza di ogni frase.\\
+Dopo aver ottenuto le lunghezze delle frasi, la funzione calcola diverse metriche narrative. \\La lunghezza media delle frasi viene determinata calcolando la media aritmetica del numero di parole per ciascuna frase.\\ Viene poi calcolata la deviazione standard, che misura quanto le lunghezze delle frasi variano l'una dall'altra, dando un'idea della coerenza o della varieta' nella struttura del discorso. \\Inoltre, la funzione conta il numero totale di frasi nel discorso e, infine, calcola un punteggio di complessita', che e' il rapporto tra la lunghezza media delle frasi e la deviazione standard.		
 	\begin{lstlisting}
 def analyze_narrative_structure(speech):
 	sentences = sent_tokenize(speech)
@@ -696,9 +728,9 @@ def analyze_narrative_structure(speech):
 	return "\n".join(["%s: %.3f" % (key, value) if isinstance(value, float) else "%s: %d" % (key, value) for key, value in narrative_metrics.items()])
 
 	\end{lstlisting}
-			
-			\subsubsection{TF-IDF}
-La funzione estrae le parole chiave più rilevanti da un discorso utilizzando il metodo TF-IDF. Imposta un limite sul numero di parole chiave da restituire (top 5) e ignora le stop words. Successivamente, calcola la matrice TF-IDF e seleziona le parole con i punteggi più alti. Le parole chiave e i loro punteggi vengono quindi ordinati e restituiti in una stringa formattata con i punteggi arrotondati a tre decimali, mettendo in evidenza le parole più significative nel testo.	
+	\newpage		
+			\subsection{TF-IDF}
+La funzione estrae le parole chiave piu' rilevanti da un discorso utilizzando il metodo TF-IDF. \\ Imposta un limite sul numero di parole chiave da restituire (top 5) e ignora le stop words.\\ Successivamente, calcola la matrice TF-IDF e seleziona le parole con i punteggi piu' alti. Le parole chiave e i loro punteggi vengono quindi ordinati e restituiti in una stringa formattata con i punteggi arrotondati a tre decimali, mettendo in evidenza le parole piu' significative nel testo.	
 	\begin{lstlisting}	
 def tfidf(speech):
 	# Definisce il numero di parole massimo per le keywords
@@ -739,8 +771,8 @@ def tfidf(speech):
 
 	\end{lstlisting}
 
-		\subsubsection{Word Embeddings}
-La funzione calcola gli embeddings di un testo suddividendolo in chunk di dimensione specificata, con un sovrapposizione tra i chunk. Per ogni chunk, il testo viene tokenizzato e passato attraverso il modello per ottenere gli embeddings dei token. Gli embeddings di ogni token nel chunk vengono mediati (calcolando la media dei vettori) per ottenere un embedding complessivo per il chunk. Alla fine, gli embeddings medi di tutti i chunk vengono mediati nuovamente per ottenere un embedding finale che rappresenta l'intero testo.		
+		\subsection{Word Embeddings}
+La funzione calcola gli embeddings di un testo suddividendolo in chunk di dimensione specificata, con un sovrapposizione tra i chunk. \\Per ogni chunk, il testo viene tokenizzato e passato attraverso il modello per ottenere gli embeddings dei token. \\Gli embeddings di ogni token nel chunk vengono mediati (calcolando la media dei vettori) per ottenere un embedding complessivo per il chunk.\\ Alla fine, gli embeddings medi di tutti i chunk vengono mediati nuovamente per ottenere un embedding finale che rappresenta l'intero testo.		
 	\begin{lstlisting}
 # Funzione per calcolare gli embeddings sui chunk
 	def calcola_embedding(testo, tokenizer, model, chunk_size=512, overlap=128):
@@ -764,14 +796,16 @@ La funzione calcola gli embeddings di un testo suddividendolo in chunk di dimens
 		
 	return final_embedding
 	\end{lstlisting}
-	
-		\subsubsection{Visualize Embeddings}
-La funzione utilizza i word embedding per creare uno scatter plot in cui ogni punto (enumerato) rappresenti un discorso e ogni colore un politico. Discorsi semanticamente simili saranno altrettanto vicini sul grafico, discorsi semanticamente differenti verranno rappresentati più distanti.
+	\newpage	
+		\subsection{Visualize Embeddings}
+La funzione utilizza i word embedding per creare uno scatter plot in cui ogni punto rappresenti un discorso e ogni colore un politico. Discorsi semanticamente simili saranno altrettanto vicini sul grafico, discorsi semanticamente differenti verranno rappresentati più distanti.
 	\begin{lstlisting}
 # Visualizza gli embeddings su scatter plot
 	def visualize_embeddings(dataset, plt_show, output_path="word_embending.png"):
-	tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
-	model = AutoModel.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
+	tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/
+		all-MiniLM-L6-v2")
+	model = AutoModel.from_pretrained("sentence-transformers/
+		all-MiniLM-L6-v2")
 	
 	dataset["Embedding"] = dataset["Speech"].fillna("").apply(lambda x: calcola_embedding(x, tokenizer, model))
 	embeddings = np.stack(dataset["Embedding"].values)
@@ -810,9 +844,13 @@ La funzione utilizza i word embedding per creare uno scatter plot in cui ogni pu
 	plt.close()
 	return None
 	\end{lstlisting}
-		
-		\subsubsection{Analyze Persuasion}
-La funzione analizza un testo per valutare la presenza di elementi persuasivi. Usa spaCy per elaborare il testo e calcolare il numero di superlativi, domande retoriche, e parole emotive, di urgenza, autorità e prova sociale. Ogni metrica è normalizzata in base alla frequenza nel testo e ponderata con un peso specifico che riflette l'importanza persuasiva di ciascun elemento. Somma gli score normalizzati per ottenere un punteggio totale di persuasione. I risultati vengono restituiti in un formato leggibile, con ogni metrica e il suo valore separati da una riga.	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.9\textwidth]{immagini/word_embedding}
+	\end{figure}
+	\newpage	
+		\subsection{Analyze Persuasion}
+La funzione analizza un testo per valutare la presenza di elementi persuasivi. \\Usa spaCy per elaborare il testo e calcolare il numero di superlativi, domande retoriche, e parole emotive, di urgenza, autorita' e prova sociale. \\Ogni metrica e' normalizzata in base alla frequenza nel testo e ponderata con un peso specifico che riflette l'importanza persuasiva di ciascun elemento. \\Somma gli score normalizzati per ottenere un punteggio totale di persuasione. \\I risultati vengono restituiti in un formato leggibile, con ogni metrica e il suo valore separati da una riga.	
 	\begin{lstlisting}
 def analyze_persuasion(text):
 	# Analisi del testo usando spaCy
@@ -829,7 +867,7 @@ def analyze_persuasion(text):
 			"emotional_words": sum(1 for token in doc if token.text in PERSUASIVE_WORDS["emotional"]),
 			# conta le parole legate all'urgenza dalla lista predefinita
 			"urgency_words": sum(1 for token in doc if token.text in PERSUASIVE_WORDS["urgency"]),
-			# conta le parole legate all'autorità
+			# conta le parole legate all'autorita
 			"authority_words": sum(1 for token in doc if token.text in PERSUASIVE_WORDS["authority"]),
 			# conta le parole di prova sociale
 			"social_proof_words": sum(1 for token in doc if token.text in PERSUASIVE_WORDS["social_proof"])
@@ -841,11 +879,11 @@ def analyze_persuasion(text):
 	if total_tokens == 0:
 		return {key: 0.0 for key in metrics.keys() | {"total_score"}}
 
-	# Definisce il peso per ogni elemento persuasivo, indicando quanto è importante ciascuna metrica
+	# Definisce il peso per ogni elemento persuasivo, indicando quanto importante per ciascuna metrica
 	weights = {
 		"superlatives": 1.5, # peso medio
-		"rhetorical_questions": 2.0, # sono più persuasive
-		"emotional_words": 2.5, # sono le più persuasive
+		"rhetorical_questions": 2.0, # sono piu persuasive
+		"emotional_words": 2.5, # sono le piu persuasive
 		"urgency_words": 2.0, # sono persuasive 
 		"authority_words": 1.8, # peso medio-alto
 		"social_proof_words": 1.7 # peso inferiore
@@ -861,23 +899,36 @@ def analyze_persuasion(text):
 
 	# Somma tutti gli score normalizzati per ottenere lo score totale di persuasione
 	total_score = sum(normalized_scores.values())
-	normalized_scores["total_score"] = round(total_score, 3) # arrotondare a 3 - scelta comune per rappresentare valori numerici in cui la precisione oltre il millesimo non è necessaria
-	
+	normalized_scores["total_score"] = round(total_score, 3) # arrotondare a 3 - scelta comune per rappresentare valori numerici in cui la precisione oltre il millesimo non risulta necessaria	
 	return '\n'.join("%s: %s" % (k.replace('_', ' ').title(), v) for k, v in normalized_scores.items()) # restituisce gli score
 	\end{lstlisting}
-	
-	\subsection{Esempio d'uso}
-
 \newpage
-	\textsc{\large METTI FOTO}\\[0.2cm]
 \section{Analisi delle Prestazioni}
-	\subsection{Metriche}
-	\subsection{Limiti identificati}
-
+Il processo di analisi ha richiesto complessivamente \textit{18 minuti e 9,04 secondi}. \\ Questo tempo e' stato suddiviso in diverse fasi: 
+\begin{itemize}
+	\item scraping dei dati
+	\item estrazione delle informazioni
+	\item analisi approfondita
+	\item creazione di rappresentazioni vettoriali delle parole
+\end{itemize}
+La durata complessiva e' influenzata da diversi fattori, tra cui la quantita' di dati da elaborare, la complessita' delle analisi e le risorse computazionali disponibili.
+\\
+I risultati dell'analisi, inclusi i dati grezzi e le rappresentazioni vettoriali, sono stati salvati in formato strutturato per facilitare ulteriori approfondimenti e sviluppi.\\ In futuro, si prevede di ottimizzare il processo per ridurre i tempi di esecuzione, ad esempio attraverso l'implementazione di algoritmi piu' efficienti o l'utilizzo di hardware piu' performante. \\Inoltre, si valutera' l'opportunita' di espandere l'analisi includendo nuove feature e modelli linguistici piu' avanzati.
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{immagini/tempoesecuzione}
+\end{figure}
 \newpage
 \section{Conclusioni}
-Il team è riuscito a completare con successo il project work assegnato grazie a una solida collaborazione, una gestione efficace del tempo e un'accurata pianificazione delle attività.  La continua iterazione, brainstorming e testing dei modelli hanno permesso di superare le difficoltà tecniche iniziali dovute alla novità della richiesta e rispettare i tempi stabiliti. Alla fine, il lavoro è stato completato con il raggiungimento degli obiettivi prefissati in modo soddisfacente.
+Il team e' riuscito a completare con successo il project work assegnato grazie a una solida collaborazione, una gestione efficace del tempo e un'accurata pianificazione delle attività.  \\La continua iterazione, brainstorming e testing dei modelli hanno permesso di superare le difficolta' tecniche iniziali dovute alla novità della richiesta e rispettare i tempi stabiliti. \\Alla fine, il lavoro e' stato completato con il raggiungimento degli obiettivi prefissati in modo soddisfacente.
 
-\section{Appendice}
-\subsection{GitHub}
+\section{Collegamenti esterni}
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{immagini/github}
+\end{figure}
+	\begin{flushleft}
+	\textbf{Codice completo:}\\
+	\href{https://github.com/lbrando/project-work}{https://github.com/lbrando/project-work}
+\end{flushleft}
 \end{document}

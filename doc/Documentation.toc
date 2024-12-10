@@ -1,39 +1,40 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
 \contentsline {section}{\numberline {1}Introduzione}{2}{section.1}%
 \contentsline {subsection}{\numberline {1.1}Project Work}{2}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.2}Definizioni utilizzate}{2}{subsection.1.2}%
-\contentsline {subsection}{\numberline {1.3}Organizzazione del gruppo}{4}{subsection.1.3}%
-\contentsline {subsection}{\numberline {1.4}Tecnologie utilizzate}{4}{subsection.1.4}%
-\contentsline {section}{\numberline {2}Descrizione del codice}{6}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Modelli}{7}{subsection.2.1}%
-\contentsline {subsubsection}{\numberline {2.1.1}Sentiment Analysis}{8}{subsubsection.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.2}Emotion Analysis}{8}{subsubsection.2.1.2}%
-\contentsline {subsubsection}{\numberline {2.1.3}Propaganda Classifier}{8}{subsubsection.2.1.3}%
-\contentsline {subsubsection}{\numberline {2.1.4}Toxicity Classifier}{8}{subsubsection.2.1.4}%
-\contentsline {subsubsection}{\numberline {2.1.5}Word Embedding}{8}{subsubsection.2.1.5}%
-\contentsline {subsection}{\numberline {2.2}Sequence Diagram}{9}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Funzioni}{10}{subsection.2.3}%
-\contentsline {subsubsection}{\numberline {2.3.1}Verify Politician}{10}{subsubsection.2.3.1}%
-\contentsline {subsubsection}{\numberline {2.3.2}Get Politician Info}{10}{subsubsection.2.3.2}%
-\contentsline {subsubsection}{\numberline {2.3.3}Speech Info}{14}{subsubsection.2.3.3}%
-\contentsline {subsubsection}{\numberline {2.3.4}Speech Data}{15}{subsubsection.2.3.4}%
-\contentsline {subsubsection}{\numberline {2.3.5}Classify Text}{15}{subsubsection.2.3.5}%
-\contentsline {subsubsection}{\numberline {2.3.6}Split Sentences}{15}{subsubsection.2.3.6}%
-\contentsline {subsubsection}{\numberline {2.3.7}Propaganda Criteria}{15}{subsubsection.2.3.7}%
-\contentsline {subsubsection}{\numberline {2.3.8}Detect Propaganda Type}{16}{subsubsection.2.3.8}%
-\contentsline {subsubsection}{\numberline {2.3.9}Contains Toxicity Criteria}{18}{subsubsection.2.3.9}%
-\contentsline {subsubsection}{\numberline {2.3.10}Classify Toxicity}{19}{subsubsection.2.3.10}%
-\contentsline {subsection}{\numberline {2.4}Offsets}{19}{subsection.2.4}%
-\contentsline {subsubsection}{\numberline {2.4.1}Formality}{20}{subsubsection.2.4.1}%
-\contentsline {subsubsection}{\numberline {2.4.2}Leggibilità}{20}{subsubsection.2.4.2}%
-\contentsline {subsubsection}{\numberline {2.4.3}Analyze Narrative Structure}{21}{subsubsection.2.4.3}%
-\contentsline {subsubsection}{\numberline {2.4.4}TF-IDF}{21}{subsubsection.2.4.4}%
-\contentsline {subsubsection}{\numberline {2.4.5}Word Embeddings}{22}{subsubsection.2.4.5}%
-\contentsline {subsubsection}{\numberline {2.4.6}Visualize Embeddings}{23}{subsubsection.2.4.6}%
-\contentsline {subsubsection}{\numberline {2.4.7}Analyze Persuasion}{24}{subsubsection.2.4.7}%
-\contentsline {subsection}{\numberline {2.5}Esempio d'uso}{26}{subsection.2.5}%
-\contentsline {section}{\numberline {3}Analisi delle Prestazioni}{27}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Metriche}{27}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Limiti identificati}{27}{subsection.3.2}%
-\contentsline {section}{\numberline {4}Conclusioni}{28}{section.4}%
-\contentsline {section}{\numberline {5}Appendice}{28}{section.5}%
-\contentsline {subsection}{\numberline {5.1}GitHub}{28}{subsection.5.1}%
+\contentsline {subsection}{\numberline {1.3}Organizzazione del gruppo}{5}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Tecnologie utilizzate}{5}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Descrizione del codice}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Modelli}{8}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Sentiment Analysis}{9}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Emotion Analysis}{9}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}Propaganda Classifier}{9}{subsubsection.2.1.3}%
+\contentsline {subsubsection}{\numberline {2.1.4}Toxicity Classifier}{9}{subsubsection.2.1.4}%
+\contentsline {subsubsection}{\numberline {2.1.5}Word Embedding}{9}{subsubsection.2.1.5}%
+\contentsline {section}{\numberline {3}Sequence Diagram}{10}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Funzione def speech\_info(politician,speech)}{10}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Funzione def detect\_propaganda\_type(text, classifier=propaganda\_classifier, chunk\_size=512, overlap=128)}{11}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Funzione def offsets(speech,data)}{12}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Funzioni}{13}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Verify Politician}{13}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Get Politician Info}{13}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Speech Info}{16}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Speech Data}{17}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Classify Text}{17}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Split Sentences}{17}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Propaganda Criteria}{18}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}Detect Propaganda Type}{19}{subsection.4.8}%
+\contentsline {subsection}{\numberline {4.9}Contains Toxicity Criteria}{20}{subsection.4.9}%
+\contentsline {subsection}{\numberline {4.10}Classify Toxicity}{20}{subsection.4.10}%
+\contentsline {subsection}{\numberline {4.11}Offsets}{22}{subsection.4.11}%
+\contentsline {subsection}{\numberline {4.12}Formality}{23}{subsection.4.12}%
+\contentsline {subsection}{\numberline {4.13}Readablity}{23}{subsection.4.13}%
+\contentsline {subsection}{\numberline {4.14}Analyze Narrative Structure}{23}{subsection.4.14}%
+\contentsline {subsection}{\numberline {4.15}TF-IDF}{25}{subsection.4.15}%
+\contentsline {subsection}{\numberline {4.16}Word Embeddings}{25}{subsection.4.16}%
+\contentsline {subsection}{\numberline {4.17}Visualize Embeddings}{27}{subsection.4.17}%
+\contentsline {subsection}{\numberline {4.18}Analyze Persuasion}{29}{subsection.4.18}%
+\contentsline {section}{\numberline {5}Analisi delle Prestazioni}{31}{section.5}%
+\contentsline {section}{\numberline {6}Conclusioni}{32}{section.6}%
+\contentsline {section}{\numberline {7}Collegamenti esterni}{32}{section.7}%
